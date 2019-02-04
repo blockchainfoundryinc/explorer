@@ -67,7 +67,7 @@ As of version 1.4.0 the explorer defaults to cluster mode, forking an instance o
 To stop the cluster you can use
 
     npm stop
-
+    
 ### Syncing databases with the blockchain
 
 sync.js (located in scripts/) is used for updating the local databases. This script must be called from the explorers root directory.
@@ -136,6 +136,14 @@ To run sync.js with a larger stack size launch with
 Where [SIZE] is an integer higher than the default.
 
 *note: SIZE will depend on which blockchain you are using, you may need to play around a bit to find an optimal setting*
+
+### Notes 
+
+When running scripts/sync.js, ensure that the web application is running first. (eg. `npm start`).
+
+The initial sync command is `scripts/sync.js index reindex`. 
+
+Make sure the "wallet" node in settings.json point to your syscoin node. 
 
 ### License
 
