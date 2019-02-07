@@ -53,19 +53,50 @@ block content
       .row
         .col-md-12
           .panel.panel-default
-            table.table.table-bordered.table-striped.summary-table
-              thead
-                tr
-                  th #{settings.locale.sys_assetguid}
-                  th.hidden-xs #{settings.locale.sys_assetsymbol}
-                  th #{settings.locale.sys_assetinitialsupply}
-                  th
+            .panel-heading
+              strong #{settings.locale.sys_assetnewtitle}
+            table.table.table-bordered.summary-table
               tbody
                 tr
-                  td #{sysTx._id}
-                  td.hidden-xs #{sysTx.symbol}
-                  td #{sysTx.balance}
                   td
+                   b #{settings.locale.sys_assetguid}
+                  td #{sysTx._id}
+                tr
+                  td
+                    b #{settings.locale.sys_assetsymbol}
+                  td #{sysTx.symbol}
+                tr
+                  td
+                    b #{settings.locale.sys_blockheight}
+                  td #{assetInfo.height}
+                tr
+                  td
+                    b #{settings.locale.sys_assetpublicvalue}
+                  td #{assetInfo.publicvalue}
+                tr
+                  td
+                    b #{settings.locale.sys_assetowneraddress}
+                  td #{assetInfo.alias}
+                tr
+                  td
+                    b #{settings.locale.sys_assettotalsupply}
+                  td #{assetInfo.total_supply}
+                tr
+                  td
+                    b #{settings.locale.sys_assetmaxsupply}
+                  td #{assetInfo.max_supply}
+                tr
+                  td
+                    b #{settings.locale.sys_assetinterestrate}
+                  td #{assetInfo.interest_rate}
+                tr
+                  td
+                    b #{settings.locale.sys_assetuseinputranges}
+                  td #{assetInfo.use_input_ranges}
+                tr
+                  td
+                    b #{settings.locale.sys_assetprecision}
+                  td #{assetInfo.precision}
 
     else
       if(sysTx.txtype === 'assetsend')

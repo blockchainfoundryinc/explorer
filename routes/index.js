@@ -45,7 +45,9 @@ function route_get_tx(res, txid) {
         lib.get_rawtransaction(txid, function(rtx) {
           lib.get_blockcount(async function (blockcount) {
             try {
-              res.render('tx', {active: 'tx', tx: tx, confirmations: settings.confirmations, blockcount: blockcount, sysTx: await syscoinHelper.syscoinDecodeRawTransaction(rtx.hex)});
+              const sysTx = await syscoinHelper.syscoinDecodeRawTransaction(rtx.hex)
+              const assetInfo = await syscoinHelper.assetInfo(sysTx._id);
+              res.render('tx', {active: 'tx', tx: tx, confirmations: settings.confirmations, blockcount: blockcount, sysTx, assetInfo});
             }catch(e) {
               console.log("ERR", e);
             }
