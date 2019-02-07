@@ -47,6 +47,83 @@ block content
                 td.view_tx  
                   a(href='/block/#{tx.blockhash}')
                     span.glyphicon.glyphicon-eye-open
+      - console.log("START")
+    if sysTx.txtype === 'assetactivate'
+      - console.log("NEW");
+      .row
+        .col-md-12
+          .panel.panel-default
+            .panel-heading
+              strong #{settings.locale.sys_assetnewtitle}
+            table.table.table-bordered.summary-table
+              tbody
+                tr
+                  td
+                   b #{settings.locale.sys_assetguid}
+                  td #{sysTx._id}
+                tr
+                  td
+                    b #{settings.locale.sys_assetsymbol}
+                  td #{sysTx.symbol}
+                tr
+                  td
+                    b #{settings.locale.sys_blockheight}
+                  td #{assetInfo.height}
+                tr
+                  td
+                    b #{settings.locale.sys_assetpublicvalue}
+                  td #{assetInfo.publicvalue}
+                tr
+                  td
+                    b #{settings.locale.sys_assetowneraddress}
+                  td #{assetInfo.alias}
+                tr
+                  td
+                    b #{settings.locale.sys_assettotalsupply}
+                  td #{assetInfo.total_supply}
+                tr
+                  td
+                    b #{settings.locale.sys_assetmaxsupply}
+                  td #{assetInfo.max_supply}
+                tr
+                  td
+                    b #{settings.locale.sys_assetinterestrate}
+                  td #{assetInfo.interest_rate}
+                tr
+                  td
+                    b #{settings.locale.sys_assetuseinputranges}
+                  td #{assetInfo.use_input_ranges}
+                tr
+                  td
+                    b #{settings.locale.sys_assetprecision}
+                  td #{assetInfo.precision}
+
+    else
+      if(sysTx.txtype === 'assetsend') || (sysTx.txtype === 'assetallocationsend')
+        - console.log("SEND/ALLOCSEND");
+        .row
+          .col-md-12
+            .panel.panel-default
+              .panel-heading
+                if(sysTx.txtype === 'assetsend')
+                  strong #{settings.locale.sys_assetsendtitle}
+                else
+                  strong #{settings.locale.sys_assetallocationsendtitle}
+              table.table.table-bordered.summary-table
+                tbody
+                  tr
+                    td
+                      b #{settings.locale.sys_assetfromaddress}
+                    td #{sysTx.owner}
+                  tr
+                    td
+                      b #{settings.locale.sys_assettoaddress}
+                    td #{sysTx.allocations[0].owner}
+                  tr
+                    td
+                      b #{settings.locale.sys_amount}
+                    td #{sysTx.allocations[0].amount} #{assetInfo.symbol.toUpperCase()}
+
     if tx.vout.length < 1
       .alert.alert-info(role='alert', style='text-align:center;')   
         strong #{settings.locale.tx_nonstandard}

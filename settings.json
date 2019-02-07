@@ -5,7 +5,7 @@
 */
 {
   // name your instance!
-  "title": "Lode.one Syscoin Block Explorer",
+  "title": "AGX Block Explorer",
 
   "address": "sysnode.lode.one",
 
@@ -26,7 +26,7 @@
   //     Cerulean, Cosmo, Cyborg, Darkly, Flatly, Journal, Lumen, Paper,
   //     Readable, Sandstone, Simplex, Slate, Spacelab, Superhero, United, Yeti
   // theme (see /public/themes for available themes)
-  "theme": "Cerulean",
+  "theme": "Simplex-new",
 
   // port to listen for requests on.
   "port" : 80,
