@@ -23,7 +23,7 @@
     "qr-image": "~2.0.0",
     "request": "2.74.0",
     "static-favicon": "~1.0.0",
-    "syscoin-js": "git+https://github.com/syscoin/syscoin-js.git"
+    "syscoin-js": "git+https://github.com/syscoin/syscoin-js.git#develop"
   },
   "devDependencies": {
     "jasmine": "~2.1.0"
