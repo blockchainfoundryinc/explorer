@@ -47,6 +47,34 @@ block content
                 td.view_tx  
                   a(href='/block/#{tx.blockhash}')
                     span.glyphicon.glyphicon-eye-open
+      - console.log("START")
+    if sysTx.txtype === 'assetactivate'
+      - console.log("NEW");
+      .row
+        .col-md-12
+          .panel.panel-default
+            table.table.table-bordered.table-striped.summary-table
+              thead
+                tr
+                  th #{settings.locale.sys_assetguid}
+                  th.hidden-xs #{settings.locale.sys_assetsymbol}
+                  th #{settings.locale.sys_assetinitialsupply}
+                  th
+              tbody
+                tr
+                  td #{sysTx._id}
+                  td.hidden-xs #{sysTx.symbol}
+                  td #{sysTx.balance}
+                  td
+
+    else
+      if(sysTx.txtype === 'assetsend')
+        - console.log("SEND");
+
+      else
+        if(sysTx.txtype === 'assetallocationsend')
+          - console.log("ALLOCSEND");
+
     if tx.vout.length < 1
       .alert.alert-info(role='alert', style='text-align:center;')   
         strong #{settings.locale.tx_nonstandard}

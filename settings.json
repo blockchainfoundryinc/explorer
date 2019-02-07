@@ -7,7 +7,7 @@
   // name your instance!
   "title": "Lode.one Syscoin Block Explorer",
 
-  "address": "sysnode.lode.one",
+  "address": "127.0.0.1",
 
   // coin name
   "coin": "Syscoin",
@@ -29,12 +29,12 @@
   "theme": "Cerulean",
 
   // port to listen for requests on.
-  "port" : 80,
+  "port" : 9000,
 
   // database settings (MongoDB)
   "dbsettings": {
-    "user": "lodeadmin",
-    "password": "admin",
+    "user": "iquidus",
+    "password": "3xp!0reR",
     "database": "explorerdb",
     "address": "localhost",
     "port": 27017
@@ -48,8 +48,8 @@
   "wallet": {
     "host": "localhost",
     "port": 8368,
-    "user": "foo",
-    "pass": "bar"
+    "user": "u",
+    "pass": "p"
   },
 
   // confirmations

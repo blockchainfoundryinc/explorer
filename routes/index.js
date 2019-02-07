@@ -4,7 +4,8 @@ var express = require('express')
   , locale = require('../lib/locale')
   , db = require('../lib/database')
   , lib = require('../lib/explorer')
-  , qr = require('qr-image');
+  , qr = require('qr-image')
+  , syscoinHelper = require('../lib/syscoin');
 
 function route_get_block(res, blockhash) {
   lib.get_block(blockhash, function (block) {
@@ -41,16 +42,22 @@ function route_get_tx(res, txid) {
   } else {
     db.get_tx(txid, function(tx) {
       if (tx) {
-        lib.get_blockcount(function(blockcount) {
-          res.render('tx', { active: 'tx', tx: tx, confirmations: settings.confirmations, blockcount: blockcount});
+        lib.get_rawtransaction(txid, function(rtx) {
+          lib.get_blockcount(async function (blockcount) {
+            try {
+              res.render('tx', {active: 'tx', tx: tx, confirmations: settings.confirmations, blockcount: blockcount, sysTx: await syscoinHelper.syscoinDecodeRawTransaction(rtx.hex)});
+            }catch(e) {
+              console.log("ERR", e);
+            }
+          });
         });
       }
       else {
         lib.get_rawtransaction(txid, function(rtx) {
           if (rtx.txid) {
             lib.prepare_vin(rtx, function(vin) {
-              lib.prepare_vout(rtx.vout, rtx.txid, vin, function(rvout, rvin) {
-                lib.calculate_total(rvout, function(total){
+              lib.prepare_vout(rtx.vout, rtx.txid, vin,  function(rvout, rvin) {
+                lib.calculate_total(rvout, async function(total){
                   if (!rtx.confirmations > 0) {
                     var utx = {
                       txid: rtx.txid,
@@ -61,6 +68,8 @@ function route_get_tx(res, txid) {
                       blockhash: '-',
                       blockindex: -1,
                     };
+                    let sysInfo = await client.syscoinDecodeRawTransaction(rtx);
+                    console.log("RTX1", sysInfo);
                     res.render('tx', { active: 'tx', tx: utx, confirmations: settings.confirmations, blockcount:-1});
                   } else {
                     var utx = {
@@ -72,7 +81,9 @@ function route_get_tx(res, txid) {
                       blockhash: rtx.blockhash,
                       blockindex: rtx.blockheight,
                     };
-                    lib.get_blockcount(function(blockcount) {
+                    lib.get_blockcount(async function(blockcount) {
+                      let sysInfo = await client.syscoinDecodeRawTransaction(rtx);
+                      console.log("RTX2", sysInfo);
                       res.render('tx', { active: 'tx', tx: utx, confirmations: settings.confirmations, blockcount: blockcount});
                     });
                   }

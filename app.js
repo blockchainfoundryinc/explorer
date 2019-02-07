@@ -38,22 +38,6 @@ if (settings.heavy != true) {
     'getnextrewardwhensec', 'getsupply', 'gettxoutsetinfo']);
 }
 
-//global JS setup
-const SyscoinRpcClient = require("syscoin-js").default;
-app.use(async function(req, res, next){
-  let client = new SyscoinRpcClient({baseUrl: "localhost",
-    port: 8368,
-    username: 'u',
-    password: 'p'});
-  try {
-    res.locals.hello_world = await client.callRpc("getinfo", []);
-  }catch(e) {
-    console.log("ERROR!", e);
-  }
-  next();
-});
-
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
