@@ -5,9 +5,9 @@
 */
 {
   // name your instance!
-  "title": "Lode.one Syscoin Block Explorer",
+  "title": "AGX Block Explorer",
 
-  "address": "127.0.0.1",
+  "address": "sysnode.lode.one",
 
   // coin name
   "coin": "Syscoin",
@@ -26,15 +26,15 @@
   //     Cerulean, Cosmo, Cyborg, Darkly, Flatly, Journal, Lumen, Paper,
   //     Readable, Sandstone, Simplex, Slate, Spacelab, Superhero, United, Yeti
   // theme (see /public/themes for available themes)
-  "theme": "Cerulean",
+  "theme": "Simplex-new",
 
   // port to listen for requests on.
-  "port" : 9000,
+  "port" : 80,
 
   // database settings (MongoDB)
   "dbsettings": {
-    "user": "iquidus",
-    "password": "3xp!0reR",
+    "user": "lodeadmin",
+    "password": "admin",
     "database": "explorerdb",
     "address": "localhost",
     "port": 27017
@@ -48,8 +48,8 @@
   "wallet": {
     "host": "localhost",
     "port": 8368,
-    "user": "u",
-    "pass": "p"
+    "user": "foo",
+    "pass": "bar"
   },
 
   // confirmations
