@@ -154,9 +154,11 @@ function route_get_address(res, hash, count) {
             loop.next();
           }
         });
-      }, function(){
+      }, async function(){
 
-        res.render('address', { active: 'address', address: address, txs: txs});
+        //get asset allocations
+        let allocations = await syscoinHelper.listAssetAllocations(hash);
+        res.render('address', { active: 'address', address: address, txs: txs, allocations});
       });
 
     } else {

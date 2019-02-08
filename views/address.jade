@@ -39,6 +39,18 @@ block content
               if settings.show_sent_received == true
                 td #{received.toFixed(8)}
               td #{balance.toFixed(8)}
+    if allocations.length > 0
+      .panel.panel-default.hidden-xs
+        .panel-heading
+          strong #{settings.locale.sys_assetbalances}
+        table.table.table-bordered.summary-table
+          tbody
+            each asset in allocations
+              tr
+                td
+                  b #{asset.symbol}
+                td #{parseFloat(asset.balance).toFixed(8)}
+    hr
     .panel.panel-default.hidden-xs
       .panel-heading
         strong #{settings.locale.ex_latest_transactions}
