@@ -137,7 +137,7 @@ function route_get_index(res, error) {
 }
 
 function route_get_address(res, hash, count) {
-  db.get_address(hash, function(address) {
+  db.get_address(hash, async function(address) {
     if (address) {
       var txs = [];
       var hashes = address.txs.reverse();
@@ -155,14 +155,25 @@ function route_get_address(res, hash, count) {
           }
         });
       }, async function(){
-
         //get asset allocations
         let allocations = await syscoinHelper.listAssetAllocations(hash);
         res.render('address', { active: 'address', address: address, txs: txs, allocations});
       });
-
     } else {
-      route_get_index(res, hash + ' not found');
+      //if we have no indexed address, create a synthetic entry to support asset-only balances
+      let address = {
+        a_id: hash,
+        txs: [],
+        received: 0,
+        sent: 0,
+        balance: 0
+      };
+
+      //get asset allocations
+      let allocations = await syscoinHelper.listAssetAllocations(hash);
+      res.render('address', { active: 'address', address: address, txs: address.txs, allocations});
+
+      //route_get_index(res, hash + ' not found');
     }
   });
 }
