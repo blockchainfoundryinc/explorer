@@ -48,52 +48,51 @@ block content
                   a(href='/block/#{tx.blockhash}')
                     span.glyphicon.glyphicon-eye-open
     if assetInfo !== undefined
-    .panel.panel-default
-      .panel-heading
-        strong #{settings.locale.sys_assetnewtitle}
-      table.table.table-bordered.summary-table
-        tbody
-          tr
-            td
-              b #{settings.locale.sys_assetguid}
-            td #{assetInfo._id}
-          tr
-            td
-              b #{settings.locale.sys_assetsymbol}
-            td #{assetInfo.symbol}
-          tr
-            td
-              b #{settings.locale.sys_blockheight}
-            td #{assetInfo.height}
-          tr
-            td
-              b #{settings.locale.sys_assetpublicvalue}
-            td #{assetInfo.publicvalue}
-          tr
-            td
-              b #{settings.locale.sys_assetowneraddress}
-            td #{assetInfo.alias}
-          tr
-            td
-              b #{settings.locale.sys_assettotalsupply}
-            td #{assetInfo.total_supply}
-          tr
-            td
-              b #{settings.locale.sys_assetmaxsupply}
-            td #{assetInfo.max_supply}
-          tr
-            td
-              b #{settings.locale.sys_assetinterestrate}
-            td #{assetInfo.interest_rate}
-          tr
-            td
-              b #{settings.locale.sys_assetuseinputranges}
-            td #{assetInfo.use_input_ranges}
-          tr
-            td
-              b #{settings.locale.sys_assetprecision}
-            td #{assetInfo.precision}
-
+      .panel.panel-default
+        .panel-heading
+          strong #{settings.locale.sys_assetnewtitle}
+        table.table.table-bordered.summary-table
+          tbody
+            tr
+              td
+                b #{settings.locale.sys_assetguid}
+              td #{assetInfo._id}
+            tr
+              td
+                b #{settings.locale.sys_assetsymbol}
+              td #{assetInfo.symbol}
+            tr
+              td
+                b #{settings.locale.sys_blockheight}
+              td #{assetInfo.height}
+            tr
+              td
+                b #{settings.locale.sys_assetpublicvalue}
+              td #{assetInfo.publicvalue}
+            tr
+              td
+                b #{settings.locale.sys_assetowneraddress}
+              td #{assetInfo.alias}
+            tr
+              td
+                b #{settings.locale.sys_assettotalsupply}
+              td #{assetInfo.total_supply}
+            tr
+              td
+                b #{settings.locale.sys_assetmaxsupply}
+              td #{assetInfo.max_supply}
+            tr
+              td
+                b #{settings.locale.sys_assetinterestrate}
+              td #{assetInfo.interest_rate}
+            tr
+              td
+                b #{settings.locale.sys_assetuseinputranges}
+              td #{assetInfo.use_input_ranges}
+            tr
+              td
+                b #{settings.locale.sys_assetprecision}
+              td #{assetInfo.precision}
     if tx.vout.length < 1
       .alert.alert-info(role='alert', style='text-align:center;')
         strong #{settings.locale.tx_nonstandard}
