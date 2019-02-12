@@ -17,7 +17,7 @@ function route_get_block(res, blockhash) {
           if (txs.length > 0) {
             res.render('block', { active: 'block', block: block, confirmations: settings.confirmations, txs: txs});
           } else {
-            db.create_txs(block, function(){
+            db.create_txs(block, blockhash, function(){
               db.get_txs(block, function(ntxs) {
                 if (ntxs.length > 0) {
                   res.render('block', { active: 'block', block: block, confirmations: settings.confirmations, txs: ntxs});
@@ -42,7 +42,7 @@ function route_get_tx(res, txid) {
   } else {
     db.get_tx(txid, function(tx) {
       if (tx) {
-        lib.get_rawtransaction(txid, function(rtx) {
+        lib.get_rawtransaction(txid, tx.blockhash, function(rtx) {
           lib.get_blockcount(async function (blockcount) {
             try {
               //const sysTx = await syscoinHelper.syscoinDecodeRawTransaction(rtx.hex);
@@ -86,7 +86,7 @@ function route_get_tx(res, txid) {
         });
       }
       else {
-        lib.get_rawtransaction(txid, function(rtx) {
+        lib.get_rawtransaction(txid, null, function(rtx) {
           if (rtx.txid) {
             lib.prepare_vin(rtx, function(vin) {
               lib.prepare_vout(rtx.vout, rtx.txid, vin,  function(rvout, rvin) {

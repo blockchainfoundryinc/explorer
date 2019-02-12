@@ -34,10 +34,10 @@ block content
              *#{settings.locale.api_getblock}*  
              [#{address}/api/getblock?hash=#{hashes.blockhash}](/api/getblock?hash=#{hashes.blockhash})
 
-          *  **getrawtransaction [txid] [decrypt]**  
+          *  **getrawtransaction [txid] [decrypt] [blockhash]**  
              *#{settings.locale.api_getrawtransaction}*  
-             [#{address}/api/getrawtransaction?txid=#{hashes.txhash}&decrypt=0](/api/getrawtransaction?txid=#{hashes.txhash}&decrypt=0)  
-             [#{address}/api/getrawtransaction?txid=#{hashes.txhash}&decrypt=1](/api/getrawtransaction?txid=#{hashes.txhash}&decrypt=1)
+             [#{address}/api/getrawtransaction?txid=#{hashes.txhash}&decrypt=0](/api/getrawtransaction?txid=#{hashes.txhash}&decrypt=0&blockhash=#{hashes.blockhash})  
+             [#{address}/api/getrawtransaction?txid=#{hashes.txhash}&decrypt=1](/api/getrawtransaction?txid=#{hashes.txhash}&decrypt=1&blockhash=#{hashes.blockhash})
         
 
         if settings.index.show_hashrate == true

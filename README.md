@@ -1,17 +1,11 @@
-Iquidus Explorer - 1.6.1
+Iquidus Explorer - 2.0.0 (based on version 1.6.1 from https://github.com/iquidus/explorer)
 ================
 
-An open source block explorer written in node.js.
+An open source block explorer written in node.js. This version removes the requirement of txindex by passing in blockhash into getrawtransaction (Note that pruning should be disabled still). Also many redundant calls were refactored out meaning less calls to the daemon RPC during indexing. Syscoin Asset support was also added in this version.
 
 ### See it in action
 
-*  [Deutsche eMark](http://b.emark.tk/)
-*  [Sphere](http://sphere.iquidus.io)
-*  [Vertcoin](http://explorer.vertcoin.info/)
-*  [Vivo](http://vivo.explorerz.top:3003)
-*  [Florincoin](https://florincoin.info/info)
-*  [Maxcoin Explorer 1](https://explorer.maxcoinproject.net/)
-*  [Maxcoin Explorer 2](https://explorer2.maxcoinproject.net/)
+*  [Syscoin Explorer](https://syscoin explorer link/)
 
 
 *note: If you would like your instance mentioned here contact me*
@@ -104,12 +98,12 @@ sync.js (located in scripts/) is used for updating the local databases. This scr
 
 Iquidus Explorer is intended to be generic so it can be used with any wallet following the usual standards. The wallet must be running with atleast the following flags
 
-    -daemon -txindex
+    -daemon -prune=0
 
 ### Donate
 
-    BTC: 168hdKA3fkccPtkxnX8hBrsxNubvk4udJi
-    JBS: JZp9893FMmrm1681bDuJBU7c6w11kyEY7D
+    SYS: your syscoin address
+    BTC: your btc address
 
 ### Known Issues
 
