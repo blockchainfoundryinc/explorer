@@ -5,7 +5,8 @@ var express = require('express')
   , db = require('../lib/database')
   , lib = require('../lib/explorer')
   , qr = require('qr-image')
-  , syscoinHelper = require('../lib/syscoin');
+  , syscoinHelper = require('../lib/syscoin')
+  , Address = require('../models/address');
 
 function route_get_block(res, blockhash) {
   lib.get_block(blockhash, function (block) {
@@ -161,8 +162,20 @@ function route_get_address(res, hash, count) {
           }
         });
       }, async function(){
-        //get asset allocations
-        let allocations = await syscoinHelper.listAssetAllocations(hash);
+        //render allocation from db info
+        let allocations = [];
+
+        //get asset info based in guid
+        for(let guid in address.asset_balances) {
+          let assetInfo = await syscoinHelper.getAssetInfo(guid);
+
+          allocations.push({
+            guid: guid,
+            balance: address.asset_balances[guid],
+            symbol: assetInfo.symbol
+          })
+        }
+
         res.render('address', { active: 'address', address: address, txs: txs, allocations});
       });
     } else {
