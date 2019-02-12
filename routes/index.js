@@ -78,7 +78,13 @@ function route_get_tx(res, txid) {
               //  }
               //}
 
-              res.render('tx', {active: 'tx', tx: tx, confirmations: settings.confirmations, blockcount: blockcount});
+              let assetInfo;
+              if(tx.txtype === 'assetactivate') {
+                const sysTx = await syscoinHelper.syscoinDecodeRawTransaction(rtx.hex);
+                assetInfo = await syscoinHelper.getAssetInfo(tx.asset_guid);
+              }
+
+              res.render('tx', {active: 'tx', tx: tx, confirmations: settings.confirmations, blockcount: blockcount, assetInfo});
             }catch(e) {
               console.log("ERR", e);
             }
