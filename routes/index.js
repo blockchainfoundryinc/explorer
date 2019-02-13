@@ -6,7 +6,8 @@ var express = require('express')
   , lib = require('../lib/explorer')
   , qr = require('qr-image')
   , syscoinHelper = require('../lib/syscoin')
-  , Address = require('../models/address');
+  , Address = require('../models/address')
+  , utils = require('../lib/utils');
 
 function route_get_block(res, blockhash) {
   lib.get_block(blockhash, function (block) {
@@ -171,7 +172,7 @@ function route_get_address(res, hash, count) {
 
           allocations.push({
             guid: guid,
-            balance: address.asset_balances[guid],
+            balance: utils.numberWithCommas(address.asset_balances[guid], 2),
             symbol: assetInfo.symbol
           })
         }
@@ -179,19 +180,6 @@ function route_get_address(res, hash, count) {
         res.render('address', { active: 'address', address: address, txs: txs, allocations});
       });
     } else {
-      //if we have no indexed address, create a synthetic entry to support asset-only balances
-      //let address = {
-      //  a_id: hash,
-      //  txs: [],
-      //  received: 0,
-      //  sent: 0,
-      //  balance: 0
-      //};
-      //
-      ////get asset allocations
-      //let allocations = await syscoinHelper.listAssetAllocations(hash);
-      //res.render('address', { active: 'address', address: address, txs: address.txs, allocations});
-
       route_get_index(res, hash + ' not found');
     }
   });

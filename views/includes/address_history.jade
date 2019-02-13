@@ -2,6 +2,7 @@ thead
   tr
     th.hidden-xs #{settings.locale.timestamp}
     th.hidden-xs #{settings.locale.tx_hash}
+    th txtype
     th #{settings.locale.mkt_amount} (#{settings.symbol})
 tbody
   each tx in txs
@@ -10,6 +11,7 @@ tbody
       td.hidden-xs #{time} 
       td.hidden-xs
         a(href='/tx/#{tx.txid}') #{tx.txid}
+      td.hiddex-xs #{tx.txtype}
       - var done = false
       - var out = 0
       - var vin = 0
