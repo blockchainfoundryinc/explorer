@@ -41,16 +41,20 @@ tbody
             - var amount = vin / 100000000
             | - #{amount.toFixed(8)} #{settings.symbol}
       else
-        if tx.txtype === 'assetactivate'
-          - out = tx.asset_total
-        else
-          if (tx.asset_vin[0].address === tx.asset_vout[tx.asset_vout.length-1].address) && tx.asset_vin[0].address === address.a_id
-            - out = tx.asset_vout[tx.asset_vout.length].amount
-          each s in tx.asset_vout
-            - console.log(s)
-            - console.log(address.a_id)
-            if s.address === address.a_id
-              - vin = s.amount
+
+        -if(tx.txtype === 'assetactivate') {
+          -vin = tx.asset_total
+        -}else{
+         -if ( (tx.asset_vin[0].address === tx.asset_vout[tx.asset_vout.length-1].address) && tx.asset_vin[0].address === address.a_id) {
+           -out = tx.asset_vout[tx.asset_vout.length-1].amount;
+           -for(var s in tx.asset_vout) {
+             -if(s.address === address.a_id) {
+               -vin = s.amount !== undefined ? s.amount : 0
+             -}
+           -}
+         -}
+        -}
+
         if out > 0 && vin > 0
           td.info
             - var amount = (out - vin);
