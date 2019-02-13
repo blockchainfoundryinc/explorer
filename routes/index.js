@@ -47,45 +47,11 @@ function route_get_tx(res, txid) {
         lib.get_rawtransaction(txid, tx.blockhash, function(rtx) {
           lib.get_blockcount(async function (blockcount) {
             try {
-              //const sysTx = await syscoinHelper.syscoinDecodeRawTransaction(rtx.hex);
-              //let assetGuid, assetInfo, assetAllocationInfo;
-              //if (sysTx._id !== undefined && sysTx._id.length > 16) {
-              //  assetGuid = sysTx.asset;
-              //}else{
-              //  assetGuid = sysTx._id;
-              //}
-              //
-              ////create synthetic input/output
-              //let assetInputs = [], assetOutputs = [];
-              //if(assetGuid != undefined) {
-              //  console.log("ASSET:", assetGuid);
-              //  assetInfo = await syscoinHelper.assetInfo(assetGuid);
-              //  assetAllocationInfo = await syscoinHelper.assetAllocationInfo(assetGuid, assetInfo.alias);
-              //
-              //  if(sysTx.txtype === 'assetsend' || sysTx.txtype === 'assetallocationsend') {
-              //    //first create outputs
-              //    let sum = 0;
-              //    for(let i=0; i < sysTx.allocations.length; i ++) {
-              //      let allocation = sysTx.allocations[i];
-              //      console.log(JSON.stringify(allocation));
-              //      assetOutputs.push({amount: parseFloat(allocation.amount), address: allocation.owner});
-              //      sum += parseFloat(allocation.amount);
-              //    }
-              //
-              //    //add an output for the change
-              //    assetOutputs.push({amount: parseFloat(assetAllocationInfo.balance), address: assetInfo.alias});
-              //
-              //    //create inputs
-              //    assetInputs.push({amount: parseFloat(assetAllocationInfo.balance) + sum, address: assetInfo.alias});
-              //  }
-              //}
-
               let assetInfo;
               if(tx.txtype === 'assetactivate') {
                 const sysTx = await syscoinHelper.syscoinDecodeRawTransaction(rtx.hex);
                 assetInfo = await syscoinHelper.getAssetInfo(tx.asset_guid);
               }
-
               res.render('tx', {active: 'tx', tx: tx, confirmations: settings.confirmations, blockcount: blockcount, assetInfo});
             }catch(e) {
               console.log("ERR", e);
@@ -176,8 +142,8 @@ function route_get_address(res, hash, count) {
             symbol: assetInfo.symbol
           })
         }
-
-        res.render('address', { active: 'address', address: address, txs: txs, allocations});
+        const formatAsNumber = utils.numberWithCommas;
+        res.render('address', { active: 'address', address: address, txs: txs, allocations, formatAsNumber});
       });
     } else {
       route_get_index(res, hash + ' not found');

@@ -41,16 +41,18 @@ tbody
             - var amount = vin / 100000000
             | - #{amount.toFixed(8)} #{settings.symbol}
       else
-        - out = 0
-        each r in tx.asset_vout
-          if r.address != address.a_id
-            - vin += r.amount
+        if tx.txtype === 'assetactivate'
+          - out = tx.asset_total
+        else
+          each r in tx.asset_vout
+            if r.address !== address.a_id
+              - vin += r.amount
         if out > 0 && vin > 0
           td.info
             - var amount = out;
             if amount < 0
               - amount = amount * -1
-              | - #{amount.toFixed(8)} #{tx.asset_symbol}
+              | - #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
             else if amount > 0
               | + #{amount.toFixed(8)} #{tx.asset_symbol}
             else
@@ -58,8 +60,8 @@ tbody
         else if out > 0
           td.success
             - var amount = out
-            | + #{amount.toFixed(8)} #{tx.asset_symbol}
+            | + #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
         else
           td.danger
             - var amount = vin
-            | - #{amount.toFixed(8)} #{tx.asset_symbol}
+            | - #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
