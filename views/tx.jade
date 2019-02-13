@@ -14,7 +14,7 @@ block content
         thead
           tr
             th #{settings.locale.confirmations}
-            th.hidden-xs #{settings.locale.tx_block_hash}
+            th.hidden-sm.hidden-xs #{settings.locale.tx_block_hash}
             th #{settings.locale.timestamp}
             th
         tbody
@@ -22,7 +22,7 @@ block content
           if confirms >= confirmations                
             tr.success
                 td #{confirms}
-                td.hidden-xs 
+                td.hidden-sm.hidden-xs
                   a(href='/block/#{tx.blockhash}') #{tx.blockhash}
                 td #{time}
                 td.view_tx  
@@ -32,7 +32,7 @@ block content
             if confirms < (confirmations / 2)
               tr.danger
                 td #{confirms}
-                td.hidden-xs  
+                td.hidden-sm.hidden-xs
                   a(href='/block/#{tx.blockhash}') #{tx.blockhash}
                 td #{time}
                 td.view_tx  
@@ -41,7 +41,7 @@ block content
             else
               tr.warning
                 td #{confirms}
-                td.hidden-xs  
+                td.hidden-sm.hidden-xs
                   a(href='/block/#{tx.blockhash}') #{tx.blockhash}
                 td #{time}
                 td.view_tx  
@@ -123,7 +123,7 @@ block content
                           a.loading(href='/address/#{r.addresses}')
                             =r.addresses
                         td.danger.hidden-xs #{ramount.toFixed(8)}
-                      tr.hidden-lg.hidden-md
+                      tr.hidden-lg.hidden-md.hidden-sm
                           td.danger #{ramount.toFixed(8)} #{settings.symbol}
                 else
                   tr.info(style='text-align:center')
@@ -146,7 +146,7 @@ block content
                         a.loading(href='/address/#{r.addresses}')
                           =r.addresses
                       td.success.hidden-xs  #{ramount.toFixed(8)}
-                    tr.hidden-lg.hidden-md
+                    tr.hidden-lg.hidden-md.hidden-sm
                       td.success #{ramount.toFixed(8)} #{settings.symbol}
                   else
                     tr
@@ -154,7 +154,7 @@ block content
                         a.loading(href='/address/#{r.addresses}')
                           =r.addresses
                       td.success.hidden-xs  #{ramount.toFixed(8)}
-                    tr.hidden-lg.hidden-md
+                    tr.hidden-lg.hidden-md.hidden-sm
                       td.success #{ramount.toFixed(8)} #{settings.symbol}
     if tx.asset_guid !== undefined
       .row
@@ -183,7 +183,7 @@ block content
                           a.loading(href='/address/#{r.address}')
                             =r.address
                         td.danger.hidden-xs #{ramount.toFixed(8)}
-                      tr.hidden-lg.hidden-md
+                      tr.hidden-lg.hidden-md.hidden-sm
                         td.danger #{ramount.toFixed(8)}
                 else
                   tr.info(style='text-align:center')
@@ -206,7 +206,7 @@ block content
                         a.loading(href='/address/#{r.address}')
                           =r.address
                       td.success.hidden-xs  #{ramount.toFixed(8)}
-                    tr.hidden-lg.hidden-md
+                    tr.hidden-lg.hidden-md.hidden-sm
                       td.success #{ramount.toFixed(8)}
                   else
                     tr
@@ -214,6 +214,6 @@ block content
                         a.loading(href='/address/#{r.address}')
                           =r.address
                       td.success.hidden-xs  #{ramount.toFixed(8)}
-                    tr.hidden-lg.hidden-md
+                    tr.hidden-lg.hidden-md.hidden-sm
                       td.success #{ramount.toFixed(8)}
     .footer-padding
