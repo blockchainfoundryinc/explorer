@@ -13,6 +13,7 @@ var TxSchema = new Schema({
   asset_vout: { type: Array, default: [] },
   asset_total: { type: Number, default: 0 },
   asset_guid: { type: String, lowercase: true, index: true },
+  asset_symbol: { type: String },
   txtype: { type: String }
 }, {id: false});
 
