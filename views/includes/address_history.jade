@@ -44,12 +44,16 @@ tbody
         if tx.txtype === 'assetactivate'
           - out = tx.asset_total
         else
-          each r in tx.asset_vout
-            if r.address !== address.a_id
-              - vin += r.amount
+          if (tx.asset_vin[0].address === tx.asset_vout[tx.asset_vout.length-1].address) && tx.asset_vin[0].address === address.a_id
+            - out = tx.asset_vout[tx.asset_vout.length].amount
+          each s in tx.asset_vout
+            - console.log(s)
+            - console.log(address.a_id)
+            if s.address === address.a_id
+              - vin = s.amount
         if out > 0 && vin > 0
           td.info
-            - var amount = out;
+            - var amount = (out - vin);
             if amount < 0
               - amount = amount * -1
               | - #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
@@ -57,11 +61,11 @@ tbody
               | + #{amount.toFixed(8)} #{tx.asset_symbol}
             else
               | #{amount.toFixed(8)} #{tx.asset_symbol}
-        else if out > 0
+        else if vin > 0
           td.success
-            - var amount = out
+            - var amount = vin
             | + #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
         else
           td.danger
-            - var amount = vin
+            - var amount = out
             | - #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
