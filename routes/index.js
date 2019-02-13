@@ -5,7 +5,9 @@ var express = require('express')
   , db = require('../lib/database')
   , lib = require('../lib/explorer')
   , qr = require('qr-image')
-  , syscoinHelper = require('../lib/syscoin');
+  , syscoinHelper = require('../lib/syscoin')
+  , Address = require('../models/address')
+  , utils = require('../lib/utils');
 
 function route_get_block(res, blockhash) {
   lib.get_block(blockhash, function (block) {
@@ -78,7 +80,13 @@ function route_get_tx(res, txid) {
               //  }
               //}
 
-              res.render('tx', {active: 'tx', tx: tx, confirmations: settings.confirmations, blockcount: blockcount});
+              let assetInfo;
+              if(tx.txtype === 'assetactivate') {
+                const sysTx = await syscoinHelper.syscoinDecodeRawTransaction(rtx.hex);
+                assetInfo = await syscoinHelper.getAssetInfo(tx.asset_guid);
+              }
+
+              res.render('tx', {active: 'tx', tx: tx, confirmations: settings.confirmations, blockcount: blockcount, assetInfo});
             }catch(e) {
               console.log("ERR", e);
             }
@@ -155,24 +163,23 @@ function route_get_address(res, hash, count) {
           }
         });
       }, async function(){
-        //get asset allocations
-        let allocations = await syscoinHelper.listAssetAllocations(hash);
+        //render allocation from db info
+        let allocations = [];
+
+        //get asset info based in guid
+        for(let guid in address.asset_balances) {
+          let assetInfo = await syscoinHelper.getAssetInfo(guid);
+
+          allocations.push({
+            guid: guid,
+            balance: utils.numberWithCommas(address.asset_balances[guid], 2),
+            symbol: assetInfo.symbol
+          })
+        }
+
         res.render('address', { active: 'address', address: address, txs: txs, allocations});
       });
     } else {
-      //if we have no indexed address, create a synthetic entry to support asset-only balances
-      //let address = {
-      //  a_id: hash,
-      //  txs: [],
-      //  received: 0,
-      //  sent: 0,
-      //  balance: 0
-      //};
-      //
-      ////get asset allocations
-      //let allocations = await syscoinHelper.listAssetAllocations(hash);
-      //res.render('address', { active: 'address', address: address, txs: address.txs, allocations});
-
       route_get_index(res, hash + ' not found');
     }
   });

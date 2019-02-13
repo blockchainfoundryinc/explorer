@@ -48,8 +48,9 @@ block content
             each asset in allocations
               tr
                 td
-                  b #{asset.symbol}
-                td #{parseFloat(asset.balance).toFixed(8)}
+                  b #{asset.symbol}&nbsp;
+                  span (#{asset.guid})
+                td #{asset.balance}
     hr
     .panel.panel-default.hidden-xs
       .panel-heading
