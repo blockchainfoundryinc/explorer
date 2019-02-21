@@ -194,27 +194,51 @@ is_locked(function (exists) {
                         console.log("Rollback: ", tx.txid);
                         Address.find({}).where({ txs: { $elemMatch: { addresses: tx.txid } } }).exec(function(err, impactedAddresses) {
                           let spliceIndex = 0;
+                          console.log(`${impactedAddresses.length()} addresses touched by txid ${tx.id}`);
                           for(let x = 0; x < impactedAddresses.length; x ++) {
                             let address = impactedAddresses[x];
                             for (let y = 0; y < address.txs.length; y++) {
-                              if (address.txs[y].addresses === txs[y].txid) {
+                              if (address.txs[y].addresses === tx.txid) {
                                 spliceIndex = y;
                                 break;
                               }
                             }
 
                             address.txs.splice(1, spliceIndex);
-                            console.log("spliceIndex:", spliceIndex, "tx:", )
+                            console.log("spliceIndex:", spliceIndex, "tx:", );
 
-                            //Address.update({a_id:hash}, {
-                            //  txs: tx_array,
-                            //  received: received,
-                            //  sent: sent,
-                            //  balance: received - sent,
-                            //  asset_balances: asset_balances
-                            //}, function() {
-                            //  return cb();
-                            //});
+                            if(address.txs.length == 0) {
+                              Address.remove({}).where({a_id: address.a_id}).exec(function (err2) {
+                                if(!err2) {
+                                  console.log("deleted address");
+                                }else{
+                                  console.log("ERR!", err2);
+                                }
+                              });
+                            }else{
+                              Address.update({a_id:hash}, {
+                                txs: address.tx_array,
+                                received: address.received,
+                                sent: address.sent,
+                                balance: address.balance,
+                                asset_balances: address.asset_balances
+                              }, function(err2) {
+                                if(!err2) {
+                                  console.log("address updated.")
+                                }else{
+                                  console.log("ERR!", err2);
+                                }
+                              });
+                            }
+                          }
+                        });
+
+                        //remove the tx
+                        Tx.remove({}).where({txid: tx.txid}).exec(function(err3) {
+                          if(!err3) {
+                            console.log("Txremoved:", tx.txid);
+                          }else{
+                            console.log("ERR!", err3);
                           }
                         });
                       }
