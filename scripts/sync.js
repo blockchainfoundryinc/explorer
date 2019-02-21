@@ -186,7 +186,7 @@ is_locked(function (exists) {
                     }
 
                     //reorg
-                    Tx.find({}).where('blockindex').gt(start + x).sort({timestamp: 'desc'}).exec(function(err, txs) {
+                    Tx.find({}).where('blockindex').gt(stats.last + x).sort({timestamp: 'desc'}).exec(function(err, txs) {
                       //remove all the txs from addresses
                       for(let i = 0; i < txs.length; i++) {
                         let tx = txs[i];
