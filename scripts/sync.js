@@ -230,7 +230,7 @@ is_locked(function (exists) {
                                 asset_balances: address.asset_balances
                               }, function (err2) {
                                 if (!err2) {
-                                  console.log("address updated.")
+                                  console.log("address updated.");
                                   addressloop.next();
                                 } else {
                                   console.log("ERR!", err2);
