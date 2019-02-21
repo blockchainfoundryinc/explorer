@@ -185,18 +185,57 @@ is_locked(function (exists) {
                       stats.last = fromBlock;
                     }
 
-                    console.log("STATS", stats);
+                    //reorg
+                    Tx.find({}).where('blockindex').gt(start + x).sort({timestamp: 'desc'}).exec(function(err, txs) {
+                      //remove all the txs from addresses
+                      for(let i = 0; i < txs.length; i++) {
+                        let tx = txs[i];
+                        console.log("Rollback: ", tx.txid);
+                        Address.find({}).where({ txs: { $elemMatch: { addresses: tx[i].txid } } }).exec(function(err, impactedAddresses) {
+                          let spliceIndex = 0;
+                          for(let x = 0; x < impactedAddresses.length; x ++) {
+                            let address = impactedAddresses[x];
+                            for (let y = 0; y < address.txs.length; y++) {
+                              if (address.txs[y].addresses === txs[y].txid) {
+                                spliceIndex = y;
+                                break;
+                              }
+                            }
 
-                    db.update_tx_db(settings.coin, stats.last, stats.count, settings.update_timeout, function(){
-                      db.update_richlist('received', function(){
-                        db.update_richlist('balance', function(){
-                          db.get_stats(settings.coin, function(nstats){
-                            console.log('update complete (block: %s)', nstats.last);
-                            exit();
-                          });
+                            address.txs.splice(1, spliceIndex);
+                            console.log("spliceIndex:", spliceIndex, "tx:", )
+
+                            //Address.update({a_id:hash}, {
+                            //  txs: tx_array,
+                            //  received: received,
+                            //  sent: sent,
+                            //  balance: received - sent,
+                            //  asset_balances: asset_balances
+                            //}, function() {
+                            //  return cb();
+                            //});
+                          }
                         });
-                      });
+                      }
                     });
+                        //Tx.remove({}, function(err) {
+                        //Address.remove({}, function (err2) {
+
+                          console.log("STATS", stats);
+
+                          db.update_tx_db(settings.coin, stats.last, stats.count, settings.update_timeout, function () {
+                            db.update_richlist('received', function () {
+                              db.update_richlist('balance', function () {
+                                db.get_stats(settings.coin, function (nstats) {
+                                  console.log('update complete (block: %s)', nstats.last);
+                                  exit();
+                                });
+                              });
+                            });
+                          });
+
+                      //  });
+                      //});
                   }
                 });
               });
