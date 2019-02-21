@@ -5,7 +5,8 @@ var mongoose = require('mongoose')
   , Richlist = require('../models/richlist')  
   , Stats = require('../models/stats')  
   , settings = require('../lib/settings')
-  , fs = require('fs');
+  , fs = require('fs')
+  , lib = require('./explorer');
 
 var mode = 'update';
 var database = 'index';
