@@ -189,6 +189,7 @@ is_locked(function (exists) {
                     console.log("LAST: ", stats.last);
                     //reorg
                     Tx.find({}).where('blockindex').gt(stats.last).sort({timestamp: 'desc'}).exec(function(err, txs) {
+                      console.log(`FOUND ${txs.length} to rollback`);
                       lib.syncLoop(txs.length, function (txloop) {
                         //remove all the txs from addresses
                         let i = txloop.iteration();
