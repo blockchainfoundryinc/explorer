@@ -197,7 +197,7 @@ is_locked(function (exists) {
                           Address.find({ txs: { $elemMatch: { addresses: tx.txid } } }).exec(function (err, impactedAddresses) {
                             let spliceIndex = 0;
 
-                            console.log(`${impactedAddresses.length} addresses touched by txid ${tx.txid}`, impactedAddresses);
+                            console.log(`${impactedAddresses.length} addresses touched by txid ${tx.txid}`);
                             lib.syncLoop(impactedAddresses.length, function (addressloop) {
                               let x = addressloop.iteration();
                               let address = impactedAddresses[x];
