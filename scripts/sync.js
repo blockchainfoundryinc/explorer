@@ -185,6 +185,8 @@ is_locked(function (exists) {
                       stats.last = fromBlock;
                     }
 
+                    console.log("STATS", stats);
+
                     db.update_tx_db(settings.coin, stats.last, stats.count, settings.update_timeout, function(){
                       db.update_richlist('received', function(){
                         db.update_richlist('balance', function(){
