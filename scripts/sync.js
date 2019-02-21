@@ -192,7 +192,7 @@ is_locked(function (exists) {
                       for(let i = 0; i < txs.length; i++) {
                         let tx = txs[i];
                         console.log("Rollback: ", tx.txid);
-                        Address.find({}).where({ txs: { $elemMatch: { addresses: tx[i].txid } } }).exec(function(err, impactedAddresses) {
+                        Address.find({}).where({ txs: { $elemMatch: { addresses: tx.txid } } }).exec(function(err, impactedAddresses) {
                           let spliceIndex = 0;
                           for(let x = 0; x < impactedAddresses.length; x ++) {
                             let address = impactedAddresses[x];
