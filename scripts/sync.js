@@ -188,7 +188,7 @@ is_locked(function (exists) {
 
                     console.log("LAST: ", stats.last);
                     //reorg
-                    Tx.find({}).where('blockindex').gt(stats.last -1).sort({timestamp: 'desc'}).exec(function(err, txs) {
+                    Tx.find({}).where('blockindex').gte(stats.last).sort({timestamp: 'desc'}).exec(function(err, txs) {
                       console.log(`FOUND ${txs.length} to rollback`);
                       lib.syncLoop(txs.length, function (txloop) {
                         //remove all the txs from addresses
@@ -250,6 +250,7 @@ is_locked(function (exists) {
                           });
                         });
                       },function() {
+                        console.log("Starting roll forward");
                         db.update_tx_db(settings.coin, stats.last, stats.count, settings.update_timeout, function () {
                           db.update_richlist('received', function () {
                             db.update_richlist('balance', function () {
