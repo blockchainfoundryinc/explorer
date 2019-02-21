@@ -9,6 +9,7 @@ var mongoose = require('mongoose')
 
 var mode = 'update';
 var database = 'index';
+var fromBlock = 1;
 
 // displays usage and exits
 function usage() {
@@ -41,6 +42,10 @@ if (process.argv[2] == 'index') {
     {
     case 'update':
       mode = 'update';
+      if (process.argv[4]) {
+        fromBlock = process.argv[4];
+        console.log("starting from block:", fromBlock);
+      }
       break;
     case 'check':
       mode = 'check';
@@ -138,9 +143,12 @@ is_locked(function (exists) {
             } else {
               db.update_db(settings.coin, function(){
                 db.get_stats(settings.coin, function(stats){
+                  if(fromBlock > 1) {
+                    stats.last = fromBlock;
+                  }
                   if (settings.heavy == true) {
                     db.update_heavy(settings.coin, stats.count, 20, function(){
-                    
+
                     });
                   }
                   if (mode == 'reindex') {
