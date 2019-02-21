@@ -182,87 +182,100 @@ is_locked(function (exists) {
                       });
                     });
                   } else if (mode == 'update') {
-                    if(fromBlock > 1) {
-                      stats.last = fromBlock;
-                    }
+                    let last = (fromBlock > 1 && fromBlock != stats.last) ? fromBlock : stats.last;
 
                     console.log("LAST: ", stats.last);
-                    //reorg
-                    Tx.find({}).where('blockindex').gte(stats.last).sort({timestamp: 'desc'}).exec(function(err, txs) {
-                      console.log(`FOUND ${txs.length} to rollback`);
-                      lib.syncLoop(txs.length, function (txloop) {
-                        //remove all the txs from addresses
-                        let i = txloop.iteration();
-                        let tx = txs[i];
-                        console.log("Rollback: ", tx.txid);
-                        Address.find({}).where({txs: {$elemMatch: {addresses: tx.txid}}}).exec(function (err, impactedAddresses) {
-                          let spliceIndex = 0;
+                    if (fromBlock > 1 && fromBlock != stats.last) {
+                      //reorg
+                      Tx.find({}).where('blockindex').gte(stats.last).sort({timestamp: 'desc'}).exec(function (err, txs) {
+                        console.log(`FOUND ${txs.length} to rollback`);
+                        lib.syncLoop(txs.length, function (txloop) {
+                          //remove all the txs from addresses
+                          let i = txloop.iteration();
+                          let tx = txs[i];
+                          console.log("Rollback: ", tx.txid);
+                          Address.find({}).where({txs: {$elemMatch: {addresses: tx.txid}}}).exec(function (err, impactedAddresses) {
+                            let spliceIndex = 0;
 
-                          console.log(`${impactedAddresses.length} addresses touched by txid ${tx.txid}`);
-                          lib.syncLoop(impactedAddresses.length, function (addressloop) {
-                            let x = addressloop.iteration();
-                            let address = impactedAddresses[x];
-                            for (let y = 0; y < address.txs.length; y++) {
-                              if (address.txs[y].addresses === tx.txid) {
-                                spliceIndex = y;
-                                break;
+                            console.log(`${impactedAddresses.length} addresses touched by txid ${tx.txid}`);
+                            lib.syncLoop(impactedAddresses.length, function (addressloop) {
+                              let x = addressloop.iteration();
+                              let address = impactedAddresses[x];
+                              for (let y = 0; y < address.txs.length; y++) {
+                                if (address.txs[y].addresses === tx.txid) {
+                                  spliceIndex = y;
+                                  break;
+                                }
                               }
-                            }
 
-                            address.txs.splice(1, spliceIndex);
-                            console.log("spliceIndex:", spliceIndex, "tx:",);
+                              address.txs.splice(1, spliceIndex);
+                              console.log("spliceIndex:", spliceIndex, "tx:",);
 
-                            if (address.txs.length == 0) {
-                              Address.remove({}).where({a_id: address.a_id}).exec(function (err2) {
-                                if (!err2) {
-                                  console.log("deleted address");
-                                  addressloop.next();
-                                } else {
-                                  console.log("ERR!", err2);
-                                }
-                              });
-                            } else {
-                              Address.update({a_id: address.a_id}, {
-                                txs: address.txs,
-                                received: address.received,
-                                sent: address.sent,
-                                balance: address.balance,
-                                asset_balances: address.asset_balances
-                              }, function (err2) {
-                                if (!err2) {
-                                  console.log("address updated.");
-                                  addressloop.next();
-                                } else {
-                                  console.log("ERR!", err2);
-                                }
-                              });
-                            }
-                          }, function() {
-                            //remove the tx
-                            Tx.remove({}).where({txid: tx.txid}).exec(function (err3) {
-                              if (!err3) {
-                                console.log("Txremoved:", tx.txid);
-                                txloop.next();
+                              if (address.txs.length == 0) {
+                                Address.remove({}).where({a_id: address.a_id}).exec(function (err2) {
+                                  if (!err2) {
+                                    console.log("deleted address");
+                                    addressloop.next();
+                                  } else {
+                                    console.log("ERR!", err2);
+                                  }
+                                });
                               } else {
-                                console.log("ERR!", err3);
+                                Address.update({a_id: address.a_id}, {
+                                  txs: address.txs,
+                                  received: address.received,
+                                  sent: address.sent,
+                                  balance: address.balance,
+                                  asset_balances: address.asset_balances
+                                }, function (err2) {
+                                  if (!err2) {
+                                    console.log("address updated.");
+                                    addressloop.next();
+                                  } else {
+                                    console.log("ERR!", err2);
+                                  }
+                                });
                               }
+                            }, function () {
+                              //remove the tx
+                              Tx.remove({}).where({txid: tx.txid}).exec(function (err3) {
+                                if (!err3) {
+                                  console.log("Txremoved:", tx.txid);
+                                  txloop.next();
+                                } else {
+                                  console.log("ERR!", err3);
+                                }
+                              });
                             });
                           });
-                        });
-                      },function() {
-                        console.log("Starting roll forward");
-                        db.update_tx_db(settings.coin, stats.last, stats.count, settings.update_timeout, function () {
-                          db.update_richlist('received', function () {
-                            db.update_richlist('balance', function () {
-                              db.get_stats(settings.coin, function (nstats) {
-                                console.log('update complete (block: %s)', nstats.last);
-                                exit();
+                        }, function () {
+                          console.log("Starting roll forward");
+                          db.update_tx_db(settings.coin, stats.last, stats.count, settings.update_timeout, function () {
+                            db.update_richlist('received', function () {
+                              db.update_richlist('balance', function () {
+                                db.get_stats(settings.coin, function (nstats) {
+                                  console.log('update complete (block: %s)', nstats.last);
+                                  exit();
+                                });
                               });
                             });
                           });
                         });
                       });
-                    });
+
+                    }else{
+                      console.log("PLAIN UPDATE FROM ", stats.last);
+                      db.update_tx_db(settings.coin, stats.last + 1, stats.count, settings.update_timeout, function () {
+                        db.update_richlist('received', function () {
+                          db.update_richlist('balance', function () {
+                            db.get_stats(settings.coin, function (nstats) {
+                              console.log('update complete (block: %s)', nstats.last);
+                              exit();
+                            });
+                          });
+                        });
+                      });
+                    }
                   }
                 });
               });
