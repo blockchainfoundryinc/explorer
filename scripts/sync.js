@@ -250,7 +250,7 @@ is_locked(function (exists) {
                           });
                         }, function () {
                           console.log("Starting roll forward");
-                          db.update_tx_db(settings.coin, last, stats.count, settings.update_timeout, function () {
+                          db.update_tx_db(settings.coin, stats.last + 1, stats.count, settings.update_timeout, function () {
                             db.update_richlist('received', function () {
                               db.update_richlist('balance', function () {
                                 db.get_stats(settings.coin, function (nstats) {
