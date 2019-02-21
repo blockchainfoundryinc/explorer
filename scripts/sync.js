@@ -249,6 +249,8 @@ is_locked(function (exists) {
                             });
                           });
                         }, function () {
+                          console.log("Rollback COMPLETE");
+                          exit();
                           console.log("Starting roll forward");
                           db.update_tx_db(settings.coin, stats.last + 1, stats.count, settings.update_timeout, function () {
                             db.update_richlist('received', function () {
