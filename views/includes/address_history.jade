@@ -47,10 +47,11 @@ tbody
         -}else{
          -if ( (tx.asset_vin[0].address === tx.asset_vout[tx.asset_vout.length-1].address) && tx.asset_vin[0].address === address.a_id) {
            -out = tx.asset_vout[tx.asset_vout.length-1].amount;
-           -for(var s in tx.asset_vout) {
-             -if(s.address === address.a_id) {
-               -vin = s.amount !== undefined ? s.amount : 0
-             -}
+         -}
+
+         -for(var s in tx.asset_vout) {
+           -if(s.address === address.a_id) {
+             -vin = s.amount;
            -}
          -}
         -}
