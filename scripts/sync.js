@@ -198,7 +198,7 @@ is_locked(function (exists) {
                           let spliceIndex = 0;
 
                           console.log(`${impactedAddresses.length()} addresses touched by txid ${tx.id}`);
-                          for (let x = 0; x < impactedAddresses.length; x++) {
+                          lib.syncLoop(impactedAddresses.length, function (addressloop) {
                             let address = impactedAddresses[x];
                             for (let y = 0; y < address.txs.length; y++) {
                               if (address.txs[y].addresses === tx.txid) {
@@ -214,6 +214,7 @@ is_locked(function (exists) {
                               Address.remove({}).where({a_id: address.a_id}).exec(function (err2) {
                                 if (!err2) {
                                   console.log("deleted address");
+                                  addressloop.next();
                                 } else {
                                   console.log("ERR!", err2);
                                 }
@@ -228,22 +229,23 @@ is_locked(function (exists) {
                               }, function (err2) {
                                 if (!err2) {
                                   console.log("address updated.")
+                                  addressloop.next();
                                 } else {
                                   console.log("ERR!", err2);
                                 }
                               });
                             }
-                          }
-                        });
-
-                        //remove the tx
-                        Tx.remove({}).where({txid: tx.txid}).exec(function (err3) {
-                          if (!err3) {
-                            console.log("Txremoved:", tx.txid);
-                            txloop.next();
-                          } else {
-                            console.log("ERR!", err3);
-                          }
+                          }, function() {
+                            //remove the tx
+                            Tx.remove({}).where({txid: tx.txid}).exec(function (err3) {
+                              if (!err3) {
+                                console.log("Txremoved:", tx.txid);
+                                txloop.next();
+                              } else {
+                                console.log("ERR!", err3);
+                              }
+                            });
+                          });
                         });
                       },function() {
                         db.update_tx_db(settings.coin, stats.last, stats.count, settings.update_timeout, function () {
