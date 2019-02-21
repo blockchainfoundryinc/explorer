@@ -43,7 +43,7 @@ if (process.argv[2] == 'index') {
     case 'update':
       mode = 'update';
       if (process.argv[4]) {
-        fromBlock = process.argv[4];
+        fromBlock = parseFloat(process.argv[4]);
         console.log("starting from block:", fromBlock);
       }
       break;
@@ -143,9 +143,6 @@ is_locked(function (exists) {
             } else {
               db.update_db(settings.coin, function(){
                 db.get_stats(settings.coin, function(stats){
-                  if(fromBlock > 1) {
-                    stats.last = fromBlock;
-                  }
                   if (settings.heavy == true) {
                     db.update_heavy(settings.coin, stats.count, 20, function(){
 
@@ -184,6 +181,10 @@ is_locked(function (exists) {
                       });
                     });
                   } else if (mode == 'update') {
+                    if(fromBlock > 1) {
+                      stats.last = fromBlock;
+                    }
+
                     db.update_tx_db(settings.coin, stats.last, stats.count, settings.update_timeout, function(){
                       db.update_richlist('received', function(){
                         db.update_richlist('balance', function(){
