@@ -194,7 +194,7 @@ is_locked(function (exists) {
                           let i = txloop.iteration();
                           let tx = txs[i];
                           console.log("Rollback: ", tx.txid);
-                          Address.find({}).where({txs: {$elemMatch: {addresses: tx.txid}}}).exec(function (err, impactedAddresses) {
+                          Address.find({}).where('txs').elemMatch({addresses: tx.txid}).exec(function (err, impactedAddresses) {
                             let spliceIndex = 0;
 
                             console.log(`${impactedAddresses.length} addresses touched by txid ${tx.txid}`);
