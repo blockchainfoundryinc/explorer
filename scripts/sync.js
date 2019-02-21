@@ -6,7 +6,7 @@ var mongoose = require('mongoose')
   , Stats = require('../models/stats')  
   , settings = require('../lib/settings')
   , fs = require('fs')
-  , lib = require('./explorer');
+  , lib = require('../lib/explorer');
 
 var mode = 'update';
 var database = 'index';
