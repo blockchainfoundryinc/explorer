@@ -191,7 +191,7 @@ is_locked(function (exists) {
                     Tx.find({}).where('blockindex').gt(stats.last).sort({timestamp: 'desc'}).exec(function(err, txs) {
                       lib.syncLoop(txs.length, function (txloop) {
                         //remove all the txs from addresses
-                        var i = loop.iteration();
+                        var i = txloop.iteration();
                         let tx = txs[i];
                         console.log("Rollback: ", tx.txid);
                         Address.find({}).where({txs: {$elemMatch: {addresses: tx.txid}}}).exec(function (err, impactedAddresses) {
