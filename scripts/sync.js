@@ -208,8 +208,9 @@ is_locked(function (exists) {
                                 }
                               }
 
-                              address.txs.splice(1, spliceIndex);
-                              console.log("spliceIndex:", spliceIndex, "tx:",);
+                              address.txs = address.txs.splice(1, spliceIndex);
+                              console.log("spliceIndex:", spliceIndex);
+
 
                               if (address.txs.length == 0) {
                                 Address.remove({}).where({a_id: address.a_id}).exec(function (err2) {
