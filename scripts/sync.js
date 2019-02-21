@@ -221,7 +221,7 @@ is_locked(function (exists) {
                                 }
                               });
                             } else {
-                              Address.update({a_id: hash}, {
+                              Address.update({a_id: addres.a_id}, {
                                 txs: address.tx_array,
                                 received: address.received,
                                 sent: address.sent,
