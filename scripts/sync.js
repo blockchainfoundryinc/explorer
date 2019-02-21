@@ -10,7 +10,7 @@ var mongoose = require('mongoose')
 
 var mode = 'update';
 var database = 'index';
-var fromBlock = 1;
+var fromBlock = -1;
 
 // displays usage and exits
 function usage() {
