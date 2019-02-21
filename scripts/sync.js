@@ -185,6 +185,7 @@ is_locked(function (exists) {
                       stats.last = fromBlock;
                     }
 
+                    console.log("LAST: ", stats.last);
                     //reorg
                     Tx.find({}).where('blockindex').gt(stats.last + x).sort({timestamp: 'desc'}).exec(function(err, txs) {
                       console.log("txs:", txs);
