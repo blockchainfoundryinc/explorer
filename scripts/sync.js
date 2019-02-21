@@ -223,7 +223,7 @@ is_locked(function (exists) {
                               });
                             } else {
                               Address.update({a_id: address.a_id}, {
-                                txs: address.tx_array,
+                                txs: address.txs,
                                 received: address.received,
                                 sent: address.sent,
                                 balance: address.balance,
