@@ -182,7 +182,7 @@ is_locked(function (exists) {
                       });
                     });
                   } else if (mode == 'update') {
-                    let last = (fromBlock > 1 && fromBlock != stats.last) ? fromBlock : stats.last;
+                    let last = (fromBlock > 1) ? fromBlock : stats.last;
 
                     console.log("LAST: ", stats.last);
                     if (fromBlock > 1 && fromBlock != stats.last) {
@@ -212,7 +212,7 @@ is_locked(function (exists) {
                               console.log("spliceIndex:", spliceIndex);
 
 
-                              if (address.txs.length == 0) {
+                              if (address.txs.length === 0) {
                                 Address.remove({}).where({a_id: address.a_id}).exec(function (err2) {
                                   if (!err2) {
                                     console.log("deleted address");
@@ -252,17 +252,6 @@ is_locked(function (exists) {
                         }, function () {
                           console.log("Rollback COMPLETE");
                           exit();
-                          console.log("Starting roll forward");
-                          db.update_tx_db(settings.coin, stats.last + 1, stats.count, settings.update_timeout, function () {
-                            db.update_richlist('received', function () {
-                              db.update_richlist('balance', function () {
-                                db.get_stats(settings.coin, function (nstats) {
-                                  console.log('update complete (block: %s)', nstats.last);
-                                  exit();
-                                });
-                              });
-                            });
-                          });
                         });
                       });
 
