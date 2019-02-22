@@ -67,7 +67,7 @@ tbody
 
         if (out > 0 && vin > 0)
           td.info
-            - var amount = (vin - out);
+            - var amount = (out - vin);
             if amount < 0
               - amount = amount * -1
               | - #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
