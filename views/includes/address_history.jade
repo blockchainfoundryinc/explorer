@@ -42,37 +42,13 @@ tbody
             - var amount = vin / 100000000
             | - #{amount.toFixed(8)} #{settings.symbol}
       else
-        -//ASSET TX
-        -if(tx.txtype === 'assetactivate') {
-          -vin = tx.asset_total
-        -}else{
-          -//if the last out is the same as the address and 0 amount, dont count the vin
-          -var fullSend = false;
-          -var inMatchesOut = tx.asset_vin[0].address === address.a_id && tx.asset_vout[tx.asset_vout.length-1].address === address.a_id;
-          -if (tx.asset_vin[0].address === address.a_id && (tx.asset_vout[tx.asset_vout.length-1].amount === 0 && tx.asset_vout[tx.asset_vout.length-1].address !== address.a_id)) {
-            -vin = tx.asset_vin[0].amount;
-          -}else if(tx.asset_vout[tx.asset_vout.length-1].amount === 0 && tx.asset_vout[tx.asset_vout.length-1].address === address.a_id) {
-            -fullSend = true;
-          -}
+        script.
+          //ASSET TX
+          if(tx.txtype === 'assetactivate') {
+            vin = tx.asset_total
+          }else{
 
-          -if(vin > 0 || fullSend) {
-            -console.log("VIN0orFullsend");
-            -for(var s = 0; s < tx.asset_vout.length; s++) {
-              -if(tx.asset_vout[s].address !== address.a_id) {
-                -out += tx.asset_vout[s].amount;
-              -}
-            -}
-          -}else{
-            -console.log("ELSE");
-            -for(var s = 0; s < tx.asset_vout.length; s++) {
-              -if(tx.asset_vout[s].address === address.a_id) {
-                -vin += tx.asset_vout[s].amount;
-              -}
-            -}
-          -}
-
-          -console.log(tx.txid, "vin:", vin, "vout", out);
-        -}
+          }
 
         if (out > 0 && vin > 0) || inMatchesOut
           td.info
