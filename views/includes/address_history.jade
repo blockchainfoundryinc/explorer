@@ -16,6 +16,7 @@ tbody
       - var out = 0
       - var vin = 0
       if(tx.asset_symbol === undefined)
+      -//NORMAL TX
         each r in tx.vout
           if r.addresses == address.a_id
             - out = r.amount
@@ -41,24 +42,24 @@ tbody
             - var amount = vin / 100000000
             | - #{amount.toFixed(8)} #{settings.symbol}
       else
-
+        -//ASSET TX
         -if(tx.txtype === 'assetactivate') {
           -vin = tx.asset_total
         -}else{
-         -if ( (tx.asset_vin[0].address === tx.asset_vout[tx.asset_vout.length-1].address) && tx.asset_vin[0].address === address.a_id) {
-           -out = tx.asset_vout[tx.asset_vout.length-1].amount;
+         -if (tx.asset_vin[0].address === address.a_id) {
+           -vin = tx.asset_vin[0].amount;
          -}
 
          -for(var s in tx.asset_vout) {
-           -if(s.address === address.a_id) {
-             -vin = s.amount;
+           -if(s.address !== address.a_id) {
+             -out += s.amount;
            -}
          -}
         -}
 
         if out > 0 && vin > 0
           td.info
-            - var amount = (out - vin);
+            - var amount = (vin - out);
             if amount < 0
               - amount = amount * -1
               | - #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
