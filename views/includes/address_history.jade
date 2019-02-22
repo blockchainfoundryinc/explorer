@@ -56,13 +56,14 @@ tbody
           -}
 
           -if(vin > 0 || fullSend) {
+            -console.log("VIN0orFullsend");
             -for(var s = 0; s < tx.asset_vout.length; s++) {
               -if(tx.asset_vout[s].address !== address.a_id) {
                 -out += tx.asset_vout[s].amount;
               -}
             -}
           -}else{
-            -console.log("VIN 0");
+            -console.log("ELSE");
             -for(var s = 0; s < tx.asset_vout.length; s++) {
               -if(tx.asset_vout[s].address === address.a_id) {
                 -vin += tx.asset_vout[s].amount;
