@@ -185,7 +185,7 @@ is_locked(function (exists) {
                     let last = (fromBlock > 1) ? fromBlock : stats.last;
 
                     console.log("LAST: ", stats.last);
-                    if (fromBlock > 1 && fromBlock != stats.last) {
+                    if (fromBlock > 1) {
                       //reorg
                       Tx.find({}).where('blockindex').gte(last).sort({timestamp: 'desc'}).exec(function (err, txs) {
                         console.log(`FOUND ${txs.length} to rollback`);
