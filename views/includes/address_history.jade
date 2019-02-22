@@ -51,7 +51,7 @@ tbody
           -}
 
           -if(vin > 0) {
-            -for(var s in tx.asset_vout) {
+            -for(var s = 0; s < tx.asset_vout.length; s++) {
               -if(tx.asset_vout[s].address !== address.a_id) {
                 -console.log("OUT", out, " ADD", tx.asset_vout[s].amount);
                 -out += tx.asset_vout[s].amount;
@@ -59,7 +59,7 @@ tbody
             -}
           -}else{
             -console.log("VIN 0");
-            -for(var s in tx.asset_vout) {
+            -for(var s = 0; s < tx.asset_vout.length; s++) {
               -if(tx.asset_vout[s].address === address.a_id) {
                 -vin += tx.asset_vout[s].amount;
               -}
