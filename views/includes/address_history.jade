@@ -48,6 +48,7 @@ tbody
         -}else{
           -//if the last out is the same as the address and 0 amount, dont count the vin
           -var fullSend = false;
+          -var inMatchesOut = tx.asset_vin[0].address === address.a_id && tx.asset_vout[tx.asset_vout.length-1].address === address.a_id;
           -if (tx.asset_vin[0].address === address.a_id && (tx.asset_vout[tx.asset_vout.length-1].amount === 0 && tx.asset_vout[tx.asset_vout.length-1].address !== address.a_id)) {
             -vin = tx.asset_vin[0].amount;
           -}else{
@@ -72,7 +73,7 @@ tbody
           -console.log(tx.txid, "vin:", vin, "vout", out);
         -}
 
-        if out > 0 && vin > 0
+        if (out > 0 && vin > 0) || inMatchesOut
           td.info
             - var amount = (vin - out);
             if amount < 0
