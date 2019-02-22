@@ -51,7 +51,7 @@ tbody
             -//count the amounts that don't come back as change
             -for(var i = 0; i < tx.asset_vout.length; i++) {
               -if(tx.asset_vout[i].address !== address.a_id) {
-                -vout += tx.asset_vout[i].amount;
+                -out += tx.asset_vout[i].amount;
               -}
             -}
           -}else{ //address is RECEIVER
