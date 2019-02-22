@@ -44,25 +44,25 @@ tbody
       else
         -//ASSET TX
         -if(tx.txtype === 'assetactivate') {
-        -  vin = tx.asset_total
+          -vin = tx.asset_total
         -}else{
-        -  if(tx.asset_vin[0].address === address.a_id) { //address is SENDER
-        -    vin = tx.asset_vin[0].amount;
-        -    //count the amounts that don't come back as change
-        -    for(let i = 0; i < tx.asset_vout.length; i++) {
-        -      if(tx.asset_vout[i].address !== address.a_id) {
-        -        vout += tx.asset_vout[i].amount;
-        -      }
-        -    }
-        -  }else{ //address is RECEIVER
-        -    //count the amounts that DO go to this address
-        -    for(let i = 0; i < tx.asset_vout.length; i++) {
-        -      if(tx.asset_vout[i].address === address.a_id) {
-        -        vin += tx.asset_vout[i].amount;
-        -      }
-        -    }
-        -  }
-        -  console.log(tx.txid, "vin:", vin, "vout", vout);
+          -if(tx.asset_vin[0].address === address.a_id) { //address is SENDER
+            -vin = tx.asset_vin[0].amount;
+            -//count the amounts that don't come back as change
+            -for(let i = 0; i < tx.asset_vout.length; i++) {
+              -if(tx.asset_vout[i].address !== address.a_id) {
+                -vout += tx.asset_vout[i].amount;
+              -}
+            -}
+          -}else{ //address is RECEIVER
+            -//count the amounts that DO go to this address
+            -for(let i = 0; i < tx.asset_vout.length; i++) {
+              -if(tx.asset_vout[i].address === address.a_id) {
+                -vin += tx.asset_vout[i].amount;
+              -}
+            -}
+          -}
+          -console.log(tx.txid, "vin:", vin, "vout", vout);
         -}
 
         if (out > 0 && vin > 0)
