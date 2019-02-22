@@ -46,7 +46,9 @@ tbody
         -if(tx.txtype === 'assetactivate') {
           -vin = tx.asset_total
         -}else{
-          -if (tx.asset_vin[0].address === address.a_id) {
+          -//if the last out is the same as the address and 0 amount, dont count the vin
+          -if (tx.asset_vin[0].address === address.a_id &&
+          -(tx.asset_vout[tx.asset_vout.length-1].amount === 0 && tx.asset_vout[tx.asset_vout.length-1].address !== address.a_id)) {
             -vin = tx.asset_vin[0].amount;
           -}
 
