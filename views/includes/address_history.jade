@@ -53,6 +53,7 @@ tbody
           -if(vin > 0) {
             -for(var s in tx.asset_vout) {
               -if(tx.asset_vout[s].address !== address.a_id) {
+                -console.log("OUT", out, " ADD", tx.asset_vout[s].amount);
                 -out += tx.asset_vout[s].amount;
               -}
             -}
