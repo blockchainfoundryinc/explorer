@@ -42,7 +42,7 @@ tbody
             - var amount = vin / 100000000
             | - #{amount.toFixed(8)} #{settings.symbol}
       else
-        script.
+        -
           //ASSET TX
           if(tx.txtype === 'assetactivate') {
             vin = tx.asset_total
