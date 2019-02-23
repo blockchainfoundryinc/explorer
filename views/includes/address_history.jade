@@ -65,7 +65,7 @@ tbody
           -console.log(tx.txid, "vin:", vin, "vout", out);
         -}
 
-        if (out > 0 && vin > 0)
+        if (out > 0 && vin > 0) || (vin === 0 && out > 0)
           td.info
             - var amount = (out - vin);
             if amount < 0
@@ -79,7 +79,7 @@ tbody
           td.success
             - var amount = vin
             | + #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
-        else
-          td.info
+        else if vin === out
+          td.danger
             - var amount = out
             | - #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
