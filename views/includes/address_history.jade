@@ -48,7 +48,7 @@ tbody
           -vin = tx.asset_total
         -}else{
           -console.log(tx.txid, tx.asset_vin[0].address);
-          -if(tx.asset_vin[0].address === address.a_id) { //address is SENDER
+          -if("A" === address.a_id) { //address is SENDER
             -//vin = tx.asset_vin[0].amount;
             -//count the amounts that don't come back as change
             -for(var i = 0; i < tx.asset_vout.length; i++) {
