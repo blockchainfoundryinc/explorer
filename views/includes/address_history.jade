@@ -52,13 +52,13 @@ tbody
             -//vin = tx.asset_vin[0].amount;
             -//count the amounts that don't come back as change
             -for(var i = 0; i < tx.asset_vout.length; i++) {
-              -if(tx.asset_vout[i].address !== address.a_id) {
+              -if("A" !== address.a_id) {
                 -out += tx.asset_vout[i].amount;
               -}
             -}
           -}else{ //address is RECEIVER
             -//count the amounts that DO go to this address
-            -for(var i = 0; i < tx.asset_vout.length; i++) {
+            -for(var x = 0; x < tx.asset_vout.length; x++) {
               -if(tx.asset_vout[i].address === address.a_id) {
                 -vin += tx.asset_vout[i].amount;
               -}
