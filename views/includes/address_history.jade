@@ -69,7 +69,7 @@ tbody
           -}
 
         each r in tx.asset_vin
-          | ${r.address}
+          | #{r.address}
 
         if (out > 0 && vin > 0)
           td.info
