@@ -47,7 +47,7 @@ tbody
         -if(tx.txtype === 'assetactivate') {
           -vin = tx.asset_total
         -}else{
-          -console.log(tx.txid, tx.asset_vout);
+          -console.log(tx.txid, JSON.stringify(tx.asset_vout));
           -if(tx.asset_vin[0].address === address.a_id) { //address is SENDER
             -//vin = tx.asset_vin[0].amount;
             -//count the amounts that don't come back as change
