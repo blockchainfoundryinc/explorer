@@ -44,12 +44,10 @@ tbody
       else
         -//ASSET TX
         -console.log(tx.txid);
-        -for(var i = 0; i < tx.asset_vin.length; i++) {
-          -console.log(i, ":", tx.asset_vin[i].address);
-        -}
         -if(tx.txtype === 'assetactivate') {
           -vin = tx.asset_total
         -}else{
+          -console.log(tx.asset_vin[0].address);
           -if(tx.asset_vin[0].address === address.a_id) { //address is SENDER
             -//vin = tx.asset_vin[0].amount;
             -//count the amounts that don't come back as change
