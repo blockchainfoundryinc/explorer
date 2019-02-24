@@ -9,7 +9,8 @@ var AssetHistorySchema = new Schema({
   vin: { type: Array },
   vout: { type: Array },
   txdata: { type: Object },
-  height: { type: Number }
+  height: { type: Number },
+  txid: { type: String }
 });
 
 module.exports = mongoose.model('AssetHistory', AssetHistorySchema);
