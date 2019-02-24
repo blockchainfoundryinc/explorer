@@ -68,8 +68,14 @@ tbody
             -//console.log(tx.txid, "vin:", vin, "vout", out);
           -}
 
-        each r in tx.asset_vin
-          | #{r.address}
+        if(tx.txtype === 'assetactivate')
+          -vin = tx.asset_total
+        else
+          -vins = tx.asset_vin
+          -vouts = tx.asset_vout
+          if vins[0].address === address.a_id
+            - console.log("WINS");
+
 
         if (out > 0 && vin > 0)
           td.info
