@@ -44,38 +44,28 @@ tbody
       else
         -//ASSET TX
         -//console.log(tx.txid);
-        //
-          -if(tx.txtype === 'assetactivate') {
-            -vin = tx.asset_total
-          -}else{
-            -//console.log(tx.txid, JSON.stringify(tx.asset_vout));
-            -if(tx.asset_vin[0].address === address.a_id) { //address is SENDER
-              -for(var i = 0; i < tx.asset_vout.length; i++) {
-                -console.log(":", tx.asset_vout[i].address);
-                -if(tx.asset_vout[i].address !== address.a_id) {
-                  -out += tx.asset_vout[i].amount;
-                -}
-              -}
-            -}else{ //address is RECEIVER
-              -//count the amounts that DO go to this address
-              -for(var x = 0; x < tx.asset_vout.length; x++) {
-                -console.log(":", tx.asset_vout[x].address);
-                -if(tx.asset_vout[x].address === address.a_id) {
-                  -vin += tx.asset_vout[x].amount;
-                -}
+
+        -if(tx.txtype === 'assetactivate') {
+          -vin = tx.asset_total
+        -}else{
+          -//console.log(tx.txid, JSON.stringify(tx.asset_vout));
+          -if(tx.asset_vin.length && tx.asset_vin[0].address === address.a_id) { //address is SENDER
+            -for(var i = 0; i < tx.asset_vout.length; i++) {
+              -if(tx.asset_vout[i].address !== address.a_id) {
+                -out += tx.asset_vout[i].amount;
               -}
             -}
-            -//console.log(tx.txid, "vin:", vin, "vout", out);
+          -}else{ //address is RECEIVER
+            -//count the amounts that DO go to this address
+            -for(var x = 0; x < tx.asset_vout.length; x++) {
+              -if(tx.asset_vout[x].address === address.a_id) {
+                -vin += tx.asset_vout[x].amount;
+              -}
+            -}
           -}
+          -//console.log(tx.txid, "vin:", vin, "vout", out);
+        -}
 
-        if(tx.txtype === 'assetactivate')
-          -vin = tx.asset_total
-        else
-          -vins = tx.asset_vin
-          -vouts = tx.asset_vout
-          - console.log(tx.txid, " : ", vins[0]);
-          if vins[0].address === address.a_id
-            - console.log("WINS");
         if (out > 0 && vin > 0)
           td.info
             - var amount = (out - vin);
