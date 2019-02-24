@@ -43,7 +43,10 @@ tbody
             | - #{amount.toFixed(8)} #{settings.symbol}
       else
         -//ASSET TX
-        -console.log(tx.txid, JSON.stringify(tx.asset_vin), JSON.stringify(tx.asset_vout));
+        -console.log(tx.txid);
+        -for(var i = 0; i < tx.asset_vin.length; i++) {
+          -console.log(i, ":", tx.asset_vin[i].address);
+        -}
         -if(tx.txtype === 'assetactivate') {
           -vin = tx.asset_total
         -}else{
