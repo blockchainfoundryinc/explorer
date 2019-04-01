@@ -22,7 +22,7 @@ block content
           if confirms >= confirmations                
             tr.success
                 td #{confirms}
-                td.hidden-sm.hidden-xs
+                td.hidden-sm.hidden-xs(style='word-break: break-all')
                   a(href='/block/#{tx.blockhash}') #{tx.blockhash}
                 td #{time}
                 td.view_tx  
@@ -120,7 +120,7 @@ block content
                       - var ramount = r.amount / 100000000
                       tr
                         td
-                          a.loading(href='/address/#{r.addresses}')
+                          a.loading(href='/address/#{r.addresses}',style='word-break: break-all')
                             =r.addresses
                         td.danger.hidden-xs #{ramount.toFixed(8)}
                       tr.hidden-lg.hidden-md.hidden-sm
@@ -143,7 +143,7 @@ block content
                     - var ramount = r.amount / 100000000
                     tr
                       td
-                        a.loading(href='/address/#{r.addresses}')
+                        a.loading(href='/address/#{r.addresses}',style='word-break: break-all')
                           =r.addresses
                       td.success.hidden-xs  #{ramount.toFixed(8)}
                     tr.hidden-lg.hidden-md.hidden-sm
@@ -151,7 +151,7 @@ block content
                   else
                     tr
                       td
-                        a.loading(href='/address/#{r.addresses}')
+                        a.loading(href='/address/#{r.addresses}',style='word-break: break-all')
                           =r.addresses
                       td.success.hidden-xs  #{ramount.toFixed(8)}
                     tr.hidden-lg.hidden-md.hidden-sm
@@ -180,7 +180,7 @@ block content
                       - var ramount = r.amount
                       tr
                         td
-                          a.loading(href='/address/#{r.address}')
+                          a.loading(href='/address/#{r.address}',style='word-break: break-all')
                             =r.address
                         td.danger.hidden-xs #{ramount.toFixed(8)}
                       tr.hidden-lg.hidden-md.hidden-sm
@@ -203,7 +203,7 @@ block content
                     - var ramount = r.amount
                     tr
                       td
-                        a.loading(href='/address/#{r.address}')
+                        a.loading(href='/address/#{r.address}',style='word-break: break-all')
                           =r.address
                       td.success.hidden-xs  #{ramount.toFixed(8)}
                     tr.hidden-lg.hidden-md.hidden-sm
@@ -211,7 +211,7 @@ block content
                   else
                     tr
                       td
-                        a.loading(href='/address/#{r.address}')
+                        a.loading(href='/address/#{r.address}',style='word-break: break-all')
                           =r.address
                       td.success.hidden-xs  #{ramount.toFixed(8)}
                     tr.hidden-lg.hidden-md.hidden-sm
