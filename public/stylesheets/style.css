@@ -171,3 +171,11 @@ tr {
 	z-index: 0;
 }
 
+.nowrap {
+	white-space: nowrap;
+}
+
+.breakword {
+	word-break: break-all;
+}
+

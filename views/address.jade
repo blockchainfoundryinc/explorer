@@ -7,7 +7,7 @@ block content
     img.qrcode.pull-right.hidden-xs(src='/qr/#{address.a_id}')
   .col-xs-12.col-md-10.col-md-offset-1
     .panel.panel-default.panel-address-summary
-      .panel-heading(style='position:relative;')        
+      .panel-heading(style='position:relative; word-break: break-all')
         strong #{address.a_id}
         if settings.labels[address.a_id]
           if settings.labels[address.a_id].type  
@@ -26,18 +26,18 @@ block content
         thead
           tr
             if settings.show_sent_received == true
-              th #{settings.locale.total_sent} (#{settings.symbol})
+              th.hidden-xs #{settings.locale.total_sent} (#{settings.symbol})
             if address.a_id !== 'coinbase'
               if settings.show_sent_received == true
-                th #{settings.locale.total_received} (#{settings.symbol})
+                th.hidden-xs #{settings.locale.total_received} (#{settings.symbol})
               th #{settings.locale.rl_balance} (#{settings.symbol})
         tbody             
           tr
             if settings.show_sent_received == true 
-              td #{sent.toFixed(8)}
+              td.hidden-xs #{sent.toFixed(8)}
             if address.a_id !== 'coinbase'
               if settings.show_sent_received == true
-                td #{received.toFixed(8)}
+                td.hidden-xs #{received.toFixed(8)}
               td #{balance.toFixed(8)}
     if allocations.length > 0
       .panel.panel-default.hidden-xs
