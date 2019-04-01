@@ -6,6 +6,8 @@ body {
 
 #index-search {
 	width: 80%;
+	max-width: 600px;
+	display: inline-flex;
 }
 
 .nav-search input {
