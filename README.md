@@ -1,11 +1,17 @@
-Iquidus Explorer - 2.0.0 (based on version 1.6.1 from https://github.com/iquidus/explorer)
+Iquidus Explorer - 1.6.1
 ================
 
-An open source block explorer written in node.js. This version removes the requirement of txindex by passing in blockhash into getrawtransaction (Note that pruning should be disabled still). Also many redundant calls were refactored out meaning less calls to the daemon RPC during indexing. Syscoin Asset support was also added in this version.
+An open source block explorer written in node.js.
 
 ### See it in action
 
-*  [Syscoin Explorer](https://syscoin explorer link/)
+*  [Deutsche eMark](http://b.emark.tk/)
+*  [Sphere](http://sphere.iquidus.io)
+*  [Vertcoin](http://explorer.vertcoin.info/)
+*  [Vivo](http://vivo.explorerz.top:3003)
+*  [Florincoin](https://florincoin.info/info)
+*  [Maxcoin Explorer 1](https://explorer.maxcoinproject.net/)
+*  [Maxcoin Explorer 2](https://explorer2.maxcoinproject.net/)
 
 
 *note: If you would like your instance mentioned here contact me*
@@ -61,7 +67,7 @@ As of version 1.4.0 the explorer defaults to cluster mode, forking an instance o
 To stop the cluster you can use
 
     npm stop
-    
+
 ### Syncing databases with the blockchain
 
 sync.js (located in scripts/) is used for updating the local databases. This script must be called from the explorers root directory.
@@ -98,12 +104,12 @@ sync.js (located in scripts/) is used for updating the local databases. This scr
 
 Iquidus Explorer is intended to be generic so it can be used with any wallet following the usual standards. The wallet must be running with atleast the following flags
 
-    -daemon -prune=0
+    -daemon -txindex
 
 ### Donate
 
-    SYS: your syscoin address
-    BTC: your btc address
+    BTC: 168hdKA3fkccPtkxnX8hBrsxNubvk4udJi
+    JBS: JZp9893FMmrm1681bDuJBU7c6w11kyEY7D
 
 ### Known Issues
 
@@ -130,14 +136,6 @@ To run sync.js with a larger stack size launch with
 Where [SIZE] is an integer higher than the default.
 
 *note: SIZE will depend on which blockchain you are using, you may need to play around a bit to find an optimal setting*
-
-### Notes 
-
-When running scripts/sync.js, ensure that the web application is running first. (eg. `npm start`).
-
-The initial sync command is `scripts/sync.js index reindex`. 
-
-Make sure the "wallet" node in settings.json point to your syscoin node. 
 
 ### License
 

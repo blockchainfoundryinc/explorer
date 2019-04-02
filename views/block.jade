@@ -87,7 +87,7 @@ block content
           tbody
             each txn in txs
               tr
-                td.hidden-xs(style='word-break: break-all')
+                td.hidden-xs
                   a(href='/tx/#{txn.txid}') #{txn.txid}
                 td #{txn.vout.length}
                 if txn.vout.length > 0

@@ -4,10 +4,7 @@ var express = require('express')
   , locale = require('../lib/locale')
   , db = require('../lib/database')
   , lib = require('../lib/explorer')
-  , qr = require('qr-image')
-  , syscoinHelper = require('../lib/syscoin')
-  , Address = require('../models/address')
-  , utils = require('../lib/utils');
+  , qr = require('qr-image');
 
 function route_get_block(res, blockhash) {
   lib.get_block(blockhash, function (block) {
@@ -19,7 +16,7 @@ function route_get_block(res, blockhash) {
           if (txs.length > 0) {
             res.render('block', { active: 'block', block: block, confirmations: settings.confirmations, txs: txs});
           } else {
-            db.create_txs(block, blockhash, function(){
+            db.create_txs(block, function(){
               db.get_txs(block, function(ntxs) {
                 if (ntxs.length > 0) {
                   res.render('block', { active: 'block', block: block, confirmations: settings.confirmations, txs: ntxs});
@@ -44,27 +41,16 @@ function route_get_tx(res, txid) {
   } else {
     db.get_tx(txid, function(tx) {
       if (tx) {
-        lib.get_rawtransaction(txid, tx.blockhash, function(rtx) {
-          lib.get_blockcount(async function (blockcount) {
-            try {
-              let assetInfo;
-              if(tx.txtype === 'assetactivate') {
-                const sysTx = await syscoinHelper.syscoinDecodeRawTransaction(rtx.hex);
-                assetInfo = await syscoinHelper.getAssetInfo(tx.asset_guid);
-              }
-              res.render('tx', {active: 'tx', tx: tx, confirmations: settings.confirmations, blockcount: blockcount, assetInfo});
-            }catch(e) {
-              console.log("ERR", e);
-            }
-          });
+        lib.get_blockcount(function(blockcount) {
+          res.render('tx', { active: 'tx', tx: tx, confirmations: settings.confirmations, blockcount: blockcount});
         });
       }
       else {
-        lib.get_rawtransaction(txid, null, function(rtx) {
+        lib.get_rawtransaction(txid, function(rtx) {
           if (rtx.txid) {
             lib.prepare_vin(rtx, function(vin) {
-              lib.prepare_vout(rtx.vout, rtx.txid, vin,  function(rvout, rvin) {
-                lib.calculate_total(rvout, async function(total){
+              lib.prepare_vout(rtx.vout, rtx.txid, vin, function(rvout, rvin) {
+                lib.calculate_total(rvout, function(total){
                   if (!rtx.confirmations > 0) {
                     var utx = {
                       txid: rtx.txid,
@@ -75,8 +61,6 @@ function route_get_tx(res, txid) {
                       blockhash: '-',
                       blockindex: -1,
                     };
-                    let sysInfo = await client.syscoinDecodeRawTransaction(rtx);
-                    console.log("RTX1", sysInfo);
                     res.render('tx', { active: 'tx', tx: utx, confirmations: settings.confirmations, blockcount:-1});
                   } else {
                     var utx = {
@@ -88,9 +72,7 @@ function route_get_tx(res, txid) {
                       blockhash: rtx.blockhash,
                       blockindex: rtx.blockheight,
                     };
-                    lib.get_blockcount(async function(blockcount) {
-                      let sysInfo = await client.syscoinDecodeRawTransaction(rtx);
-                      console.log("RTX2", sysInfo);
+                    lib.get_blockcount(function(blockcount) {
                       res.render('tx', { active: 'tx', tx: utx, confirmations: settings.confirmations, blockcount: blockcount});
                     });
                   }
@@ -128,23 +110,11 @@ function route_get_address(res, hash, count) {
             loop.next();
           }
         });
-      }, async function(){
-        //render allocation from db info
-        let allocations = [];
+      }, function(){
 
-        //get asset info based in guid
-        for(let guid in address.asset_balances) {
-          let assetInfo = await syscoinHelper.getAssetInfo(guid);
-
-          allocations.push({
-            guid: guid,
-            balance: utils.numberWithCommas(address.asset_balances[guid], 2),
-            symbol: assetInfo.symbol
-          })
-        }
-        const formatAsNumber = utils.numberWithCommas;
-        res.render('address', { active: 'address', address: address, txs: txs, allocations, formatAsNumber});
+        res.render('address', { active: 'address', address: address, txs: txs});
       });
+
     } else {
       route_get_index(res, hash + ' not found');
     }
