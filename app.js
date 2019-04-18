@@ -57,6 +57,12 @@ app.use('/ext/getmoneysupply', function(req,res){
   });
 });
 
+app.use('/ext/address/:address', (req, res) => {
+  res.type('text/html');
+  res.status(200);
+  res.send('<p>HELLO WORLD!');
+});
+
 app.use('/ext/getaddress/:hash', function(req,res){
   db.get_address(req.param('hash'), function(address){
     if (address) {
