@@ -15,7 +15,7 @@ tbody
       - var done = false
       - var out = 0
       - var vin = 0
-      if(tx.asset_symbol === undefined)
+      if(tx.asset_publicvalue === undefined)
         -//NORMAL TX
         each r in tx.vout
           if r.addresses == address.a_id
@@ -71,26 +71,26 @@ tbody
             - var amount = (out - vin);
             if amount < 0
               - amount = amount * -1
-              | - #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
+              | - #{formatAsNumber(amount, 8)} #{tx.asset_publicvalue}
             else if amount > 0
-              | + #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
+              | + #{formatAsNumber(amount, 8)} #{tx.asset_publicvalue}
             else
-              | #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
+              | #{formatAsNumber(amount, 8)} #{tx.asset_publicvalue}
         else if (vin === 0 && out > 0)
           td.info.nowrap
             - var amount = (vin - out);
             if amount < 0
               - amount = amount * -1
-              | - #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
+              | - #{formatAsNumber(amount, 8)} #{tx.asset_publicvalue}
             else if amount > 0
-              | + #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
+              | + #{formatAsNumber(amount, 8)} #{tx.asset_publicvalue}
             else
-              | #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
+              | #{formatAsNumber(amount, 8)} #{tx.asset_publicvalue}
         else if vin > 0
           td.success.nowrap
             - var amount = vin
-            | + #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
+            | + #{formatAsNumber(amount, 8)} #{tx.asset_publicvalue}
         else if vin === out
           td.danger.nowrap
             - var amount = out
-            | - #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
+            | - #{formatAsNumber(amount, 8)} #{tx.asset_publicvalue}

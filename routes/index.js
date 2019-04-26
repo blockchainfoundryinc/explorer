@@ -135,7 +135,7 @@ function route_get_address(res, hash, count) {
           allocations.push({
             guid: guid,
             balance: utils.numberWithCommas(address.asset_balances[guid], 2),
-            symbol: assetInfo.symbol
+            symbol: assetInfo.publicvalue
           })
         }
         const formatAsNumber = utils.numberWithCommas;
