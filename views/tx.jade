@@ -220,6 +220,8 @@ block content
                           =r.address
                         if assetInfo.address == r.address
                           include ./includes/asset_owner.jade
+                        if r.address == 'burn'
+                          include ./includes/burn_icon.jade
                       td.success.hidden-xs  #{ramount.toFixed(8)}
                     tr.hidden-lg.hidden-md.hidden-sm
                       td.success #{ramount.toFixed(8)}
@@ -230,6 +232,8 @@ block content
                           =r.address
                         if assetInfo.address == r.address
                           include ./includes/asset_owner.jade
+                        if r.address == 'burn'
+                          include ./includes/burn_icon.jade
                       td.success.hidden-xs  #{ramount.toFixed(8)}
                     tr.hidden-lg.hidden-md.hidden-sm
                       td.success #{ramount.toFixed(8)}

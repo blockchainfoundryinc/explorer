@@ -6,28 +6,32 @@ thead
     th #{settings.locale.mkt_amount}
 tbody
   each tx in txs
+    - console.log(tx.txid, txs.length)
     - var time = format_unixtime(tx.timestamp)
     tr
-    - var done = false
-    - var out = 0
-    - var vin = 0
-    each r in tx.vout
-      if r.addresses == address.a_id
-        - out = r.amount
-      if r.addresses == 'syscoinburn'
-        - tx.txtype = 'syscoinburn'
-    each s in tx.vin
-      if s.addresses == address.a_id
-        - vin = s.amount
+      - var done = false
+      - var out = 0
+      - var vin = 0
+      each r in tx.vout
+        if r.addresses == address.a_id
+          - out = r.amount
+        if r.addresses == 'syscoinburn'
+          - tx.txtype = 'syscoinburn'
+      each s in tx.vin
+        if s.addresses == address.a_id
+          - vin = s.amount
+
+      if tx.asset_vout.length && tx.asset_vout[0].address.trim() == 'burn'
+        - tx.txtype = 'assetallocationburn'
 
       td.hidden-xs #{time} 
       td.hidden-xs(style='word-break: break-all')
         a(href='/tx/#{tx.txid}') #{tx.txid}
       td.hiddex-xs #{tx.txtype}
-        if tx.txtype == 'syscoinburn'
+        if tx.txtype == 'syscoinburn' || tx.txtype == 'assetallocationburn'
           include burn_icon.jade
 
-      if(tx.asset_publicvalue === undefined)
+      if tx.asset_publicvalue === undefined
         -//NORMAL TX
         if out > 0 && vin > 0
           td.info.nowrap
@@ -50,11 +54,14 @@ tbody
       else
         -//ASSET TX
         -//console.log(tx.txid);
+        - out = 0
+        - vin = 0
 
         -if(tx.txtype === 'assetactivate') {
           -vin = tx.asset_total
+          -out = 0
         -}else{
-          -//console.log(tx.txid, JSON.stringify(tx.asset_vout));
+          -console.log(tx.txid, JSON.stringify(tx.asset_vout));
           -if(tx.asset_vin.length && tx.asset_vin[0].address === address.a_id) { //address is SENDER
             -for(var i = 0; i < tx.asset_vout.length; i++) {
               -if(tx.asset_vout[i].address !== address.a_id) {
@@ -69,8 +76,8 @@ tbody
               -}
             -}
           -}
-          -//console.log(tx.txid, "vin:", vin, "vout", out);
         -}
+        -console.log(tx.txid, "vin:", vin, "vout", out);
 
         if (out > 0 && vin > 0)
           td.info.nowrap
