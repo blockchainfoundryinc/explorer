@@ -1,7 +1,9 @@
 var mongoose = require('mongoose')
   , db = require('../lib/database')
   , Tx = require('../models/tx')  
-  , Address = require('../models/address')  
+  , Address = require('../models/address')
+  , AssetHistory = require('../models/assethistory')
+  , Asset = require('../models/asset')
   , Richlist = require('../models/richlist')  
   , Stats = require('../models/stats')  
   , settings = require('../lib/settings')
@@ -145,22 +147,22 @@ is_locked(function (exists) {
                   }
                   if (mode == 'reindex') {
                     Tx.remove({}, function(err) { 
-                      Address.remove({}, function(err2) { 
-                        Richlist.update({coin: settings.coin}, {
-                          received: [],
-                          balance: [],
-                        }, function(err3) { 
-                          Stats.update({coin: settings.coin}, { 
-                            last: 0,
-                          }, function() {
-                            console.log('index cleared (reindex)');
-                          }); 
-                          db.update_tx_db(settings.coin, 1, stats.count, settings.update_timeout, function(){
-                            db.update_richlist('received', function(){
-                              db.update_richlist('balance', function(){
-                                db.get_stats(settings.coin, function(nstats){
-                                  console.log('reindex complete (block: %s)', nstats.last);
-                                  exit();
+                      Address.remove({}, function(err2) {
+                        AssetHistory.remove({}, function(err3) {
+                          Asset.remove({}, function(err4) {
+                            Richlist.update({coin: settings.coin}, { received: [], balance: [] }, function (err5) {
+                              Stats.update({coin: settings.coin}, { last: 0 }, function () {
+                                console.log('index cleared (reindex)');
+                              });
+
+                              db.update_tx_db(settings.coin, 1, stats.count, settings.update_timeout, function () {
+                                db.update_richlist('received', function () {
+                                  db.update_richlist('balance', function () {
+                                    db.get_stats(settings.coin, function (nstats) {
+                                      console.log('reindex complete (block: %s)', nstats.last);
+                                      exit();
+                                    });
+                                  });
                                 });
                               });
                             });
