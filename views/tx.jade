@@ -47,7 +47,7 @@ block content
                 td.view_tx  
                   a(href='/block/#{tx.blockhash}')
                     span.glyphicon.glyphicon-eye-open
-    if assetInfo !== undefined
+    if sysTx.txtype == 'assetactivate'
       .panel.panel-default
         .panel-heading
           strong #{settings.locale.sys_assetnewtitle}
@@ -56,7 +56,7 @@ block content
             tr
               td
                 b #{settings.locale.sys_assetguid}
-              td #{assetInfo._id}
+              td #{assetInfo.asset_guid}
             //tr
             //  td
             //    b #{settings.locale.sys_assetsymbol}
@@ -182,6 +182,9 @@ block content
                         td
                           a.loading(href='/address/#{r.address}',style='word-break: break-all')
                             =r.address
+                          if assetInfo.address == r.address
+                            | &nbsp;
+                            i(class="fas fa-crown")
                         td.danger.hidden-xs #{ramount.toFixed(8)}
                       tr.hidden-lg.hidden-md.hidden-sm
                         td.danger #{ramount.toFixed(8)}
@@ -205,6 +208,9 @@ block content
                       td
                         a.loading(href='/address/#{r.address}',style='word-break: break-all')
                           =r.address
+                        if assetInfo.address == r.address
+                          | &nbsp;
+                          i(class="fas fa-crown")
                       td.success.hidden-xs  #{ramount.toFixed(8)}
                     tr.hidden-lg.hidden-md.hidden-sm
                       td.success #{ramount.toFixed(8)}
@@ -213,6 +219,9 @@ block content
                       td
                         a.loading(href='/address/#{r.address}',style='word-break: break-all')
                           =r.address
+                        if assetInfo.address == r.address
+                          | &nbsp;
+                          i(class="fas fa-crown")
                       td.success.hidden-xs  #{ramount.toFixed(8)}
                     tr.hidden-lg.hidden-md.hidden-sm
                       td.success #{ramount.toFixed(8)}

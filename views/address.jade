@@ -50,6 +50,9 @@ block content
                 td
                   b #{asset.symbol}&nbsp;
                   span (#{asset.guid})
+                    if asset.isOwner == true
+                      | &nbsp;
+                      i(class="fas fa-crown")
                 td #{asset.balance}
     hr
     .panel.panel-default.hidden-xs

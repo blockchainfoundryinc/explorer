@@ -48,13 +48,9 @@ function route_get_tx(res, txid) {
           lib.get_blockcount(async function (blockcount) {
             try {
               let assetInfo;
-              if(tx.txtype === 'assetactivate') {
-                const sysTx = rtx.systx;
-
-                //TODO: refactor?
-                assetInfo = await syscoinHelper.getAssetInfo(sysTx._id);
-              }
-              res.render('tx', {active: 'tx', tx: tx, confirmations: settings.confirmations, blockcount: blockcount, assetInfo});
+              const sysTx = rtx.systx;
+              assetInfo = await syscoinHelper.getAssetInfo(sysTx.asset_guid);
+              res.render('tx', {active: 'tx', tx: tx, confirmations: settings.confirmations, blockcount: blockcount, assetInfo, sysTx});
             }catch(e) {
               console.log("ERR", e);
             }
@@ -137,7 +133,8 @@ function route_get_address(res, hash, count) {
           allocations.push({
             guid: guid,
             balance: utils.numberWithCommas(address.asset_balances[guid], 2),
-            symbol: assetInfo.publicvalue
+            symbol: assetInfo.publicvalue,
+            isOwner: assetInfo.address == address.a_id
           })
         }
         const formatAsNumber = utils.numberWithCommas;
