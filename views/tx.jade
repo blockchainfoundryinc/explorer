@@ -47,7 +47,7 @@ block content
                 td.view_tx  
                   a(href='/block/#{tx.blockhash}')
                     span.glyphicon.glyphicon-eye-open
-    if sysTx.txtype == 'assetactivate'
+    if sysTx && sysTx.txtype == 'assetactivate'
       .panel.panel-default
         .panel-heading
           strong #{settings.locale.sys_assetnewtitle}

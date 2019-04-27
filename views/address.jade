@@ -48,11 +48,14 @@ block content
             each asset in allocations
               tr
                 td
-                  b #{asset.symbol}&nbsp;
-                  span (#{asset.guid})
-                    if asset.isOwner == true
+                  b #{asset.asset_publicvalue}&nbsp;
+                  | (
+                  a.loading(href='/address/#{asset.owner_address}',style='word-break: break-all')
+                    =asset.asset_guid
+                    if asset.isOwner
                       | &nbsp;
                       i(class="fas fa-crown")
+                  | )
                 td #{asset.balance}
     hr
     .panel.panel-default.hidden-xs

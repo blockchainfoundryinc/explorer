@@ -46,14 +46,13 @@ function route_get_tx(res, txid) {
       if (tx) {
         lib.get_rawtransaction(txid, tx.blockhash, function(rtx) {
           lib.get_blockcount(async function (blockcount) {
-            try {
-              let assetInfo;
-              const sysTx = rtx.systx;
+            let sysTx, assetInfo;
+            if(rtx.systx) {
+              sysTx = rtx.systx;
               assetInfo = await syscoinHelper.getAssetInfo(sysTx.asset_guid);
-              res.render('tx', {active: 'tx', tx: tx, confirmations: settings.confirmations, blockcount: blockcount, assetInfo, sysTx});
-            }catch(e) {
-              console.log("ERR", e);
             }
+
+            res.render('tx', {active: 'tx', tx: tx, confirmations: settings.confirmations, blockcount: blockcount, assetInfo, sysTx});
           });
         });
       }
@@ -131,10 +130,11 @@ function route_get_address(res, hash, count) {
           let assetInfo = await syscoinHelper.getAssetInfo(guid);
 
           allocations.push({
-            guid: guid,
+            asset_guid: guid,
             balance: utils.numberWithCommas(address.asset_balances[guid], 2),
-            symbol: assetInfo.publicvalue,
-            isOwner: assetInfo.address == address.a_id
+            asset_publicvalue: assetInfo.publicvalue,
+            isOwner: assetInfo.address == address.a_id,
+            owner_address: assetInfo.address
           })
         }
         const formatAsNumber = utils.numberWithCommas;
