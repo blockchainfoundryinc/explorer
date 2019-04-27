@@ -8,21 +8,27 @@ tbody
   each tx in txs
     - var time = format_unixtime(tx.timestamp)
     tr
+    - var done = false
+    - var out = 0
+    - var vin = 0
+    each r in tx.vout
+      if r.addresses == address.a_id
+        - out = r.amount
+      if r.addresses == 'syscoinburn'
+        - tx.txtype = 'syscoinburn'
+    each s in tx.vin
+      if s.addresses == address.a_id
+        - vin = s.amount
+
       td.hidden-xs #{time} 
       td.hidden-xs(style='word-break: break-all')
         a(href='/tx/#{tx.txid}') #{tx.txid}
       td.hiddex-xs #{tx.txtype}
-      - var done = false
-      - var out = 0
-      - var vin = 0
+        if tx.txtype == 'syscoinburn'
+          include burn_icon.jade
+
       if(tx.asset_publicvalue === undefined)
         -//NORMAL TX
-        each r in tx.vout
-          if r.addresses == address.a_id
-            - out = r.amount
-        each s in tx.vin
-          if s.addresses == address.a_id
-            - vin = s.amount
         if out > 0 && vin > 0
           td.info.nowrap
             - var amount = (out - vin) / 100000000

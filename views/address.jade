@@ -53,8 +53,7 @@ block content
                   a.loading(href='/address/#{asset.owner_address}',style='word-break: break-all')
                     =asset.asset_guid
                     if asset.isOwner
-                      | &nbsp;
-                      i(class="fas fa-crown")
+                      include ./includes/asset_owner.jade
                   | )
                 td #{asset.balance}
     hr
