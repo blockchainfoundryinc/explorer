@@ -1,2 +1,8 @@
-| &nbsp;
-i(class="fas fa-fire-alt")
+mixin burnIcon(eth_address)
+  - console.log("add", eth_address)
+  | &nbsp;
+  if eth_address
+    a(href="https://ropsten.etherscan.io/address/0x" + eth_address, title="Burned to ETH address 0x" + eth_address)
+      i(class="fas fa-fire-alt")
+  else
+    i(class="fas fa-fire-alt", title="Burned coins")

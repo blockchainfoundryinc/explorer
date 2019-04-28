@@ -1,4 +1,5 @@
 extends layout
+include includes/burn_icon.jade
 
 block content
   - var time = format_unixtime(tx.timestamp)
@@ -56,43 +57,31 @@ block content
             tr
               td
                 b #{settings.locale.sys_assetguid}
-              td #{assetInfo.asset_guid}
-            //tr
-            //  td
-            //    b #{settings.locale.sys_assetsymbol}
-            //  td #{assetInfo.symbol}
-            //tr
-            //  td
-            //    b #{settings.locale.sys_blockheight}
-            //  td #{assetInfo.height}
+              td #{sysTx.asset_guid}
+            tr
+              td
+                b #{settings.locale.sys_assetcontract}
+              td #{sysTx.contract}
             tr
               td
                 b #{settings.locale.sys_assetpublicvalue}
-              td #{assetInfo.publicvalue}
+              td #{sysTx.publicvalue}
             tr
               td
                 b #{settings.locale.sys_assetowneraddress}
-              td #{assetInfo.address}
+              td #{sysTx.sender}
             tr
               td
                 b #{settings.locale.sys_assettotalsupply}
-              td #{assetInfo.total_supply}
+              td #{sysTx.balance}
             tr
               td
                 b #{settings.locale.sys_assetmaxsupply}
-              td #{assetInfo.max_supply}
-            //tr
-            //  td
-            //    b #{settings.locale.sys_assetinterestrate}
-            //  td #{assetInfo.interest_rate}
-            //tr
-            //  td
-            //    b #{settings.locale.sys_assetuseinputranges}
-            //  td #{assetInfo.use_input_ranges}
+              td #{sysTx.total_supply}
             tr
               td
                 b #{settings.locale.sys_assetprecision}
-              td #{assetInfo.precision}
+              td #{sysTx.precision}
     if tx.vout.length < 1
       .alert.alert-info(role='alert', style='text-align:center;')
         strong #{settings.locale.tx_nonstandard}
@@ -154,7 +143,7 @@ block content
                       td
                         a.loading(href='/address/#{r.addresses}',style='word-break: break-all')
                           =r.addresses
-                        include ./includes/burn_icon.jade
+                        +burnIcon(tx.contract)
                       td.danger.hidden-xs  #{ramount.toFixed(8)}
                     tr.hidden-lg.hidden-md.hidden-sm
                       td.danger #{ramount.toFixed(8)} #{settings.symbol}
@@ -221,7 +210,7 @@ block content
                         if assetInfo.address == r.address
                           include ./includes/asset_owner.jade
                         if r.address == 'burn'
-                          include ./includes/burn_icon.jade
+                          +burnIcon(tx.contract)
                       td.success.hidden-xs  #{ramount.toFixed(8)}
                     tr.hidden-lg.hidden-md.hidden-sm
                       td.success #{ramount.toFixed(8)}
@@ -233,7 +222,7 @@ block content
                         if assetInfo.address == r.address
                           include ./includes/asset_owner.jade
                         if r.address == 'burn'
-                          include ./includes/burn_icon.jade
+                          +burnIcon(tx.contract)
                       td.success.hidden-xs  #{ramount.toFixed(8)}
                     tr.hidden-lg.hidden-md.hidden-sm
                       td.success #{ramount.toFixed(8)}
