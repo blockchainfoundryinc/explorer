@@ -14,6 +14,7 @@ var TxSchema = new Schema({
   asset_total: { type: Number, default: 0 },
   asset_guid: { type: String, lowercase: true, index: true },
   asset_publicvalue: { type: String },
+  contract: { type: String },
   txtype: { type: String }
 }, {id: false});
 
