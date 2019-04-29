@@ -15,7 +15,8 @@ block content
           tr
             td
               b #{settings.locale.sys_assetcontract}
-            td #{asset.contract}
+            td
+              a(href='https://rinkeby.etherscan.io/address/#{asset.contract}') #{asset.contract}
           tr
             td
               b #{settings.locale.sys_assetpublicvalue}
@@ -23,7 +24,8 @@ block content
           tr
             td
               b #{settings.locale.sys_assetowneraddress}
-            td #{asset.address}
+            td
+              a(href='/address/#{asset.address}') #{asset.address}
           tr
             td
               b #{settings.locale.sys_assettotalsupply}

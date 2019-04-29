@@ -67,8 +67,9 @@ block content
               td #{sysTx.publicvalue}
             tr
               td
-                b #{settings.locale.sys_assetowneraddress}
-              td #{sysTx.sender}
+                b #{settings.locale.sys_assetcreatoraddress}
+              td
+                a(href='/address/#{sysTx.sender}') #{sysTx.sender}
             tr
               td
                 b #{settings.locale.sys_assettotalsupply}
