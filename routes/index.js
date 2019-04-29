@@ -103,7 +103,7 @@ function route_get_index(res, error) {
   res.render('index', { active: 'home', error: error, warning: null});
 }
 
-function route_get_address(res, hash, count) {
+function route_get_address(res, hash, assetguid, count) {
   db.get_address(hash, function(address) {
     if (address) {
       var txs = [];
@@ -114,7 +114,7 @@ function route_get_address(res, hash, count) {
       lib.syncLoop(count, function (loop) {
         var i = loop.iteration();
         db.get_tx(hashes[i].addresses, function(tx) {
-          if (tx) {
+          if (tx && ((assetguid && assetguid === tx.asset_guid) || !assetguid)) {
             txs.push(tx);
             loop.next();
           } else {
@@ -138,7 +138,16 @@ function route_get_address(res, hash, count) {
           })
         }
         const formatAsNumber = utils.numberWithCommas;
-        res.render('address', { active: 'address', address: address, txs: txs, allocations, formatAsNumber});
+
+        if(assetguid != null) {
+          if(txs.length > 0) {
+            res.render('addressasset', { active: 'address', address: address, txs: txs, allocations, formatAsNumber});
+          }else{
+            route_get_index(res, 'No asset transactions matching GUID ' + assetguid + ' found for hash ' + hash);
+          }
+        }else{
+          res.render('address', { active: 'address', address: address, txs: txs, allocations, formatAsNumber});
+        }
       });
 
     } else {
@@ -250,11 +259,20 @@ router.get('/block/:hash', function(req, res) {
 });
 
 router.get('/address/:hash', function(req, res) {
-  route_get_address(res, req.param('hash'), settings.txcount);
+  console.log('regaddreess');
+  route_get_address(res, req.param('hash'), undefined, settings.txcount);
 });
 
 router.get('/address/:hash/:count', function(req, res) {
-  route_get_address(res, req.param('hash'), req.param('count'));
+  route_get_address(res, req.param('hash'), undefined, req.param('count'));
+});
+
+router.get('/address/:hash/asset/:assetguid', function(req, res) {
+  route_get_address(res, req.param('hash'), req.param('assetguid'), settings.txcount);
+});
+
+router.get('/address/:hash/asset/:assetguid/:count', function(req, res) {
+  route_get_address(res, req.param('hash'), req.param('assetguid'), req.param('count'));
 });
 
 router.post('/search', function(req, res) {
