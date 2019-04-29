@@ -7,6 +7,7 @@ var express = require('express')
   , qr = require('qr-image')
   , syscoinHelper = require('../lib/syscoin')
   , Address = require('../models/address')
+  , Tx = require('../models/tx')
   , utils = require('../lib/utils');
 
 function route_get_block(res, blockhash) {
@@ -101,6 +102,19 @@ function route_get_tx(res, txid) {
 
 function route_get_index(res, error) {
   res.render('index', { active: 'home', error: error, warning: null});
+}
+
+async function route_get_asset(res, assetguid) {
+  let txs = [];
+  txs = await Tx.find({asset_guid: assetguid}).sort({timestamp: -1}).exec();
+  let assetInfo = await syscoinHelper.getAssetInfo(assetguid);
+  const formatAsNumber = utils.numberWithCommas;
+
+  if(txs.length > 0) {
+    res.render('asset', {asset: assetInfo, txs: txs, formatAsNumber});
+  }else {
+    route_get_index(res, 'no matching asset txs found');
+  }
 }
 
 function route_get_address(res, hash, assetguid, count) {
@@ -256,6 +270,11 @@ router.get('/tx/:txid', function(req, res) {
 
 router.get('/block/:hash', function(req, res) {
   route_get_block(res, req.param('hash'));
+});
+
+router.get('/asset/:assetguid', function(req, res) {
+  console.log('regaddreess');
+  route_get_asset(res, req.param('assetguid'));
 });
 
 router.get('/address/:hash', function(req, res) {

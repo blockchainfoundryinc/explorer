@@ -1,0 +1,51 @@
+extends layout
+
+block content
+  img.qrcode.pull-right.hidden-xs(src='/qr/#{asset.asset_guid}')
+  .col-xs-12.col-md-10.col-md-offset-1
+    .panel.panel-default
+      .panel-heading
+        strong #{settings.locale.sys_assettitle}
+      table.table.table-bordered.summary-table
+        tbody
+          tr
+            td
+              b #{settings.locale.sys_assetguid}
+            td #{asset.asset_guid}
+          tr
+            td
+              b #{settings.locale.sys_assetcontract}
+            td #{asset.contract}
+          tr
+            td
+              b #{settings.locale.sys_assetpublicvalue}
+            td #{asset.publicvalue}
+          tr
+            td
+              b #{settings.locale.sys_assetowneraddress}
+            td #{asset.address}
+          tr
+            td
+              b #{settings.locale.sys_assettotalsupply}
+            td #{asset.balance}
+          tr
+            td
+              b #{settings.locale.sys_assetmaxsupply}
+            td #{asset.total_supply}
+          tr
+            td
+              b #{settings.locale.sys_assetprecision}
+            td #{asset.precision}
+    hr
+    .panel.panel-default.hidden-xs
+      .panel-heading
+        strong #{settings.locale.ex_latest_transactions}
+      table.table.table-bordered.table-striped.history-table
+        include ./includes/asset_history.jade
+    .panel.panel-default.hidden-sm.hidden-lg.hidden-md
+      .panel-heading
+        strong #{settings.locale.ex_latest_transactions}
+      table.table.table-bordered.table-striped
+        include ./includes/asset_history.jade
+    .footer-padding
+            

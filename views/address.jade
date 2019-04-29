@@ -40,32 +40,17 @@ block content
                 td.hidden-xs #{received.toFixed(8)}
               td #{balance.toFixed(8)}
     if allocations.length > 0
-      .panel.panel-default.hidden-xs
-        .panel-heading
-          strong #{settings.locale.sys_assetbalances}
-        table.table.table-bordered.summary-table
-          tbody
-            each asset in allocations
-              tr
-                td
-                  b #{asset.asset_publicvalue}&nbsp;
-                  | (
-                  a.loading(href='/address/#{asset.owner_address}',style='word-break: break-all')
-                    =asset.asset_guid
-                    if asset.isOwner
-                      +ownerIcon
-                  | )
-                td #{asset.balance}
+      include ./includes/assetbalances
     hr
     .panel.panel-default.hidden-xs
       .panel-heading
         strong #{settings.locale.ex_latest_transactions}
       table.table.table-bordered.table-striped.history-table
         include ./includes/address_history.jade  
-    //.panel.panel-default.hidden-sm.hidden-lg.hidden-md
-    //  .panel-heading
-    //    strong #{settings.locale.ex_latest_transactions}
-    //  table.table.table-bordered.table-striped
-    //    include ./includes/address_history.jade
+    .panel.panel-default.hidden-sm.hidden-lg.hidden-md
+      .panel-heading
+        strong #{settings.locale.ex_latest_transactions}
+      table.table.table-bordered.table-striped
+        include ./includes/address_history.jade
     .footer-padding
             
