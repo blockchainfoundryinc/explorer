@@ -3,41 +3,7 @@ extends layout
 block content
   img.qrcode.pull-right.hidden-xs(src='/qr/#{asset.asset_guid}')
   .col-xs-12.col-md-10.col-md-offset-1
-    .panel.panel-default
-      .panel-heading
-        strong #{settings.locale.sys_assettitle}
-      table.table.table-bordered.summary-table
-        tbody
-          tr
-            td
-              b #{settings.locale.sys_assetguid}
-            td #{asset.asset_guid}
-          tr
-            td
-              b #{settings.locale.sys_assetcontract}
-            td
-              a(href='https://rinkeby.etherscan.io/address/#{asset.contract}') #{asset.contract}
-          tr
-            td
-              b #{settings.locale.sys_assetpublicvalue}
-            td #{asset.publicvalue}
-          tr
-            td
-              b #{settings.locale.sys_assetowneraddress}
-            td
-              a(href='/address/#{asset.address}') #{asset.address}
-          tr
-            td
-              b #{settings.locale.sys_assettotalsupply}
-            td #{asset.balance}
-          tr
-            td
-              b #{settings.locale.sys_assetmaxsupply}
-            td #{asset.total_supply}
-          tr
-            td
-              b #{settings.locale.sys_assetprecision}
-            td #{asset.precision}
+    +assetInfoTable(asset.address, asset.asset_guid, asset.contract, asset.publicvalue, asset.balance, asset.total_supply, asset.precision)
     hr
     .panel.panel-default.hidden-xs
       .panel-heading

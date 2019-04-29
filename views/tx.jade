@@ -48,40 +48,7 @@ block content
                   a(href='/block/#{tx.blockhash}')
                     span.glyphicon.glyphicon-eye-open
     if sysTx && sysTx.txtype == 'assetactivate'
-      .panel.panel-default
-        .panel-heading
-          strong #{settings.locale.sys_assetnewtitle}
-        table.table.table-bordered.summary-table
-          tbody
-            tr
-              td
-                b #{settings.locale.sys_assetguid}
-              td #{sysTx.asset_guid}
-            tr
-              td
-                b #{settings.locale.sys_assetcontract}
-              td #{sysTx.contract}
-            tr
-              td
-                b #{settings.locale.sys_assetpublicvalue}
-              td #{sysTx.publicvalue}
-            tr
-              td
-                b #{settings.locale.sys_assetcreatoraddress}
-              td
-                a(href='/address/#{sysTx.sender}') #{sysTx.sender}
-            tr
-              td
-                b #{settings.locale.sys_assettotalsupply}
-              td #{sysTx.balance}
-            tr
-              td
-                b #{settings.locale.sys_assetmaxsupply}
-              td #{sysTx.total_supply}
-            tr
-              td
-                b #{settings.locale.sys_assetprecision}
-              td #{sysTx.precision}
+      +assetInfoTable(sysTx.sender, sysTx.asset_guid, sysTx.contract, sysTx.publicvalue, sysTx.balance, sysTx.total_supply, sysTx.precision, true)
     if tx.vout.length < 1
       .alert.alert-info(role='alert', style='text-align:center;')
         strong #{settings.locale.tx_nonstandard}

@@ -22,3 +22,20 @@ mixin ethIcon(eth_address)
   | &nbsp;
   a(href="https://rinkeby.etherscan.io/address/0x" + eth_address, title="Burned to ETH address 0x" + eth_address)
     i(class="fab fa-ethereum")
+
+mixin assetInfoTable(address, asset_guid, contract, publicvalue, balance, total_supply, precision, isAssetActivateTable)
+  include assetactivate_table
+
+mixin updateFlagsLabel(flag)
+  if flag === 1
+    | 1 - ASSET_UPDATE_ADMIN - god mode flag, governs flags field below
+  if flag === 2
+    | 2 - ASSET_UPDATE_DATA - can you update pubic data field?
+  if flag === 4
+    | 4 - ASSET_UPDATE_CONTRACT - can you update smart contract?
+  if flag === 8
+    | 8 - ASSET_UPDATE_SUPPLY - can you update supply?
+  if flag === 16
+    | 16 - ASSET_UPDATE_FLAGS - can you update flags? if you would set permanently disable this one and admin flag as well
+  if flag === 31
+    | 31 - ASSET_UPDATE_ALL

@@ -1,0 +1,40 @@
+.panel.panel-default
+  .panel-heading
+    if isAssetActivateTable
+      strong #{settings.locale.sys_assetnewtitle}
+    else
+      strong #{settings.locale.sys_assettitle}
+  table.table.table-bordered.summary-table
+    tbody
+      tr
+        td
+          b #{settings.locale.sys_assetguid}
+        td #{asset_guid}
+      tr
+        td
+          b #{settings.locale.sys_assetcontract}
+        td #{contract}
+      tr
+        td
+          b #{settings.locale.sys_assetpublicvalue}
+        td #{publicvalue}
+      tr
+        td
+          if isAssetActivateTable
+            b #{settings.locale.sys_assetcreeatoraddress}
+          else
+            b #{settings.locale.sys_assetowneraddress}
+        td
+          a(href='/address/#{address}') #{address}
+      tr
+        td
+          b #{settings.locale.sys_assettotalsupply}
+        td #{balance}
+      tr
+        td
+          b #{settings.locale.sys_assetmaxsupply}
+        td #{total_supply}
+      tr
+        td
+          b #{settings.locale.sys_assetprecision}
+        td #{precision}

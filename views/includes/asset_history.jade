@@ -19,7 +19,7 @@ tbody
           +burnIcon(tx.contract)
 
         - var amount = tx.asset_total;
-        if tx.txtype === 'assetsend' || tx.txtype === 'assetallocationsend'
+        if tx.txtype === 'assetsend' || tx.txtype === 'assetallocationsend' || tx.txtype == 'assettransfer'
           td.info.nowrap
             | #{formatAsNumber(amount, 8)} #{tx.asset_publicvalue}
         else if tx.txtype === 'assetactivate' || tx.txtype === 'assetupdate'
