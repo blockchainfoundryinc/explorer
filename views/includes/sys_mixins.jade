@@ -1,12 +1,24 @@
 mixin burnIcon(eth_address)
   - console.log("add", eth_address)
-  | &nbsp;
-  if eth_address
-    a(href="https://ropsten.etherscan.io/address/0x" + eth_address, title="Burned to ETH address 0x" + eth_address)
-      i(class="fas fa-fire-alt")
-  else
-    i(class="fas fa-fire-alt", title="Burned coins")
+  div(style="display:inline-flex;align-items:center")
+    | &nbsp;
+    if eth_address
+      i(class="fas fa-fire-alt", title="Burned coins", style="-webkit-text-fill-color: transparent; background: linear-gradient(315deg, #eb4511 0%, #b02e0c 74%); -webkit-background-clip: text")
+      +rightArrowIcon
+      +ethIcon(eth_address)
+    else
+      i(class="fas fa-fire-alt", title="Burned coins", style="-webkit-text-fill-color: transparent; background: linear-gradient(315deg, #eb4511 0%, #b02e0c 74%); -webkit-background-clip: text")
 
 mixin ownerIcon()
   | &nbsp;
-  i(class="fas fa-crown")
+  i(class="fas fa-crown", style="color: #FFD700", title="Current asset owner/issuer")
+
+mixin rightArrowIcon()
+  | &nbsp;
+  div(style="display:inline-flex;align-items:center;justify-content: center;")
+    i(class="fas fa-arrow-right", style="font-size:10px; color: lightgrey")
+
+mixin ethIcon(eth_address)
+  | &nbsp;
+  a(href="https://ropsten.etherscan.io/address/0x" + eth_address, title="Burned to ETH address 0x" + eth_address)
+    i(class="fab fa-ethereum")
