@@ -1,5 +1,4 @@
 extends layout
-include includes/burn_icon.jade
 
 block content
   - var time = format_unixtime(tx.timestamp)
@@ -183,7 +182,7 @@ block content
                           a.loading(href='/address/#{r.address}',style='word-break: break-all')
                             =r.address
                           if assetInfo.address == r.address
-                            include ./includes/asset_owner.jade
+                            +ownerIcon
                         td.danger.hidden-xs #{ramount.toFixed(8)}
                       tr.hidden-lg.hidden-md.hidden-sm
                         td.danger #{ramount.toFixed(8)}
@@ -208,7 +207,7 @@ block content
                         a.loading(href='/address/#{r.address}',style='word-break: break-all')
                           =r.address
                         if assetInfo.address == r.address
-                          include ./includes/asset_owner.jade
+                          +ownerIcon
                         if r.address == 'burn'
                           +burnIcon(tx.contract)
                       td.success.hidden-xs  #{ramount.toFixed(8)}
@@ -220,7 +219,7 @@ block content
                         a.loading(href='/address/#{r.address}',style='word-break: break-all')
                           =r.address
                         if assetInfo.address == r.address
-                          include ./includes/asset_owner.jade
+                          +ownerIcon
                         if r.address == 'burn'
                           +burnIcon(tx.contract)
                       td.success.hidden-xs  #{ramount.toFixed(8)}
