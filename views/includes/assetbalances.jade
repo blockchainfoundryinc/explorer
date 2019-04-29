@@ -8,8 +8,7 @@
           td
             b #{asset.asset_publicvalue}&nbsp;
             | (
-            a.loading(href='/asset/#{asset.asset_guid}',style='word-break: break-all')
-              =asset.asset_guid
+            a.loading(href='/asset/#{asset.asset_guid}',style='word-break: break-all') #{asset.asset_guid}
               if asset.isOwner
                 +ownerIcon
             | )

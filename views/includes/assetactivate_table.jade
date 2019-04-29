@@ -9,7 +9,8 @@
       tr
         td
           b #{settings.locale.sys_assetguid}
-        td #{asset_guid}
+        td
+          a.loading(href='/asset/#{asset_guid}',style='word-break: break-all') #{asset_guid}
       tr
         td
           b #{settings.locale.sys_assetcontract}
@@ -38,3 +39,8 @@
         td
           b #{settings.locale.sys_assetprecision}
         td #{precision}
+      tr
+        td
+          b #{settings.locale.sys_assetupdateflags}
+        td
+          +updateFlagsLabel(update_flags)

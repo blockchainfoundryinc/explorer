@@ -23,8 +23,11 @@ mixin ethIcon(eth_address)
   a(href="https://rinkeby.etherscan.io/address/0x" + eth_address, title="Burned to ETH address 0x" + eth_address)
     i(class="fab fa-ethereum")
 
-mixin assetInfoTable(address, asset_guid, contract, publicvalue, balance, total_supply, precision, isAssetActivateTable)
+mixin assetInfoTable(address, asset_guid, contract, publicvalue, balance, total_supply, precision, update_flags, isAssetActivateTable)
   include assetactivate_table
+
+mixin assetUpdateTable(updateinfo)
+  include assetupdate_table
 
 mixin updateFlagsLabel(flag)
   if flag === 1

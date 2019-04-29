@@ -1,0 +1,36 @@
+.panel.panel-default
+  .panel-heading
+    strong #{settings.locale.sys_assetupdate}
+  table.table.table-bordered.summary-table
+    tbody
+      if updateinfo.contract
+        tr
+          td
+            b #{settings.locale.sys_assetcontract}
+          td #{updateinfo.contract}
+      if updateinfo.publicvalue
+        tr
+          td
+            b #{settings.locale.sys_assetpublicvalue}
+          td #{updateinfo.publicvalue}
+      if updateinfo.balance
+        tr
+          td
+            b #{settings.locale.sys_assettotalsupply}
+          td #{updateinfo.balance}
+      if updateinfo.total_supply
+        tr
+          td
+            b #{settings.locale.sys_assetmaxsupply}
+          td #{updateinfo.total_supply}
+      if updateinfo.precision
+        tr
+          td
+            b #{settings.locale.sys_assetprecision}
+          td #{updateinfo.precision}
+      if updateinfo.update_flags
+        tr
+          td
+            b #{settings.locale.sys_assetupdateflags}
+          td
+            +updateFlagsLabel(updateinfo.update_flags)

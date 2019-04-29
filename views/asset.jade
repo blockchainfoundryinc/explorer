@@ -3,7 +3,7 @@ extends layout
 block content
   img.qrcode.pull-right.hidden-xs(src='/qr/#{asset.asset_guid}')
   .col-xs-12.col-md-10.col-md-offset-1
-    +assetInfoTable(asset.address, asset.asset_guid, asset.contract, asset.publicvalue, asset.balance, asset.total_supply, asset.precision)
+    +assetInfoTable(asset.address, asset.asset_guid, asset.contract, asset.publicvalue, asset.balance, asset.total_supply, asset.precision, asset.update_flags)
     hr
     .panel.panel-default.hidden-xs
       .panel-heading
