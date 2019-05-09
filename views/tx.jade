@@ -48,7 +48,7 @@ block content
                   a(href='/block/#{tx.blockhash}')
                     span.glyphicon.glyphicon-eye-open
     if sysTx && sysTx.txtype === 'assetactivate'
-      +assetInfoTable(sysTx.sender, sysTx.asset_guid, sysTx.contract, sysTx.publicvalue, sysTx.balance, sysTx.total_supply, sysTx.precision, sysTx.update_flags, true)
+      +assetInfoTable(sysTx.sender, sysTx.asset_guid, sysTx.contract, sysTx.publicvalue, sysTx.balance, sysTx.total_supply, sysTx.max_supply, sysTx.precision, sysTx.update_flags, true)
     if sysTx && sysTx.txtype === 'assetupdate'
       +assetUpdateTable(sysTx)
     if tx.vout.length < 1

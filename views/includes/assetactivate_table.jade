@@ -29,12 +29,16 @@
           a(href='/address/#{address}') #{address}
       tr
         td
-          b #{settings.locale.sys_assettotalsupply}
+          b #{settings.locale.rl_balance}
         td #{balance}
       tr
         td
-          b #{settings.locale.sys_assetmaxsupply}
+          b #{settings.locale.sys_assettotalsupply}
         td #{total_supply}
+      tr
+        td
+          b #{settings.locale.sys_assetmaxsupply}
+        td #{max_supply}
       tr
         td
           b #{settings.locale.sys_assetprecision}
