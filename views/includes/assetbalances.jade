@@ -14,4 +14,4 @@
             | )
           td #{asset.allocation_balance}
             if asset.balance > 0
-              | (#{asset.balance}
+              span(title="Unallocated balance", style="cursor:pointer")  (#{asset.balance})
