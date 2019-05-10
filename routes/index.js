@@ -139,29 +139,64 @@ function route_get_address(res, hash, assetguid, count) {
         //render allocation from db info
         let allocations = [];
 
-        //get asset info based in guid
-        for(let guid in address.asset_balances) {
-          let assetInfo = await syscoinHelper.getAssetInfo(guid);
+        //TODO: refactor
+        //build a list of all asset keys
+        let assetBalances = {};
 
-          allocations.push({
-            asset_guid: guid,
-            balance: address.asset_balances[guid] ? utils.numberWithCommas(address.asset_balances[guid], 2) : 0,
-            allocation_balance: address.asset_allocation_balances[guid] ? utils.numberWithCommas(address.asset_allocation_balances[guid], 2) : 0,
-            asset_publicvalue: assetInfo.publicvalue,
-            isOwner: assetInfo.address == address.a_id,
-            owner_address: assetInfo.address
-          })
+        if(Object.keys(address.asset_balances).length > 0) {
+          for (let guid in address.asset_balances) {
+            let assetInfo = await syscoinHelper.getAssetInfo(guid);
+            assetBalances[guid] = {
+              asset_guid: guid,
+              balance: utils.numberWithCommas(address.asset_balances[guid], 2),
+              allocation_balance: 0,
+              asset_publicvalue: assetInfo.publicvalue,
+              isOwner: assetInfo.address === address.a_id,
+              owner_address: assetInfo.address
+            };
+
+            //go through allocated balances and assign or create more fields
+            for (let alloc_guid in address.asset_allocation_balances) {
+              if (assetBalances[alloc_guid] != undefined) {
+                assetBalances[alloc_guid].allocation_balance = utils.numberWithCommas(address.asset_allocation_balances[alloc_guid]);
+              } else {
+                let assetInfo = await syscoinHelper.getAssetInfo(alloc_guid);
+                assetBalances[alloc_guid] = {
+                  asset_guid: alloc_guid,
+                  balance: 0,
+                  allocation_balance: utils.numberWithCommas(address.asset_allocation_balances[alloc_guid]),
+                  asset_publicvalue: assetInfo.publicvalue,
+                  isOwner: assetInfo.address === address.a_id,
+                  owner_address: assetInfo.address
+                };
+              }
+            }
+          }
+        }else{
+          //go through allocated balances and assign or create more fields
+          for (let alloc_guid in address.asset_allocation_balances) {
+            let assetInfo = await syscoinHelper.getAssetInfo(alloc_guid);
+            assetBalances[alloc_guid] = {
+              asset_guid: alloc_guid,
+              balance: 0,
+              allocation_balance: utils.numberWithCommas(address.asset_allocation_balances[alloc_guid]),
+              asset_publicvalue: assetInfo.publicvalue,
+              isOwner: assetInfo.address === address.a_id,
+              owner_address: assetInfo.address
+            };
+          }
         }
+
         const formatAsNumber = utils.numberWithCommas;
 
         if(assetguid != null) {
           if(txs.length > 0) {
-            res.render('addressasset', { active: 'address', address: address, txs: txs, allocations, formatAsNumber});
+            res.render('addressasset', { active: 'address', address: address, txs: txs, allocations: assetBalances, formatAsNumber});
           }else{
             route_get_index(res, 'No asset transactions matching GUID ' + assetguid + ' found for hash ' + hash);
           }
         }else{
-          res.render('address', { active: 'address', address: address, txs: txs, allocations, formatAsNumber});
+          res.render('address', { active: 'address', address: address, txs: txs, allocations: assetBalances, formatAsNumber});
         }
       });
 

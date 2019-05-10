@@ -39,7 +39,7 @@ block content
               if settings.show_sent_received == true
                 td.hidden-xs #{received.toFixed(8)}
               td #{balance.toFixed(8)}
-    if allocations.length > 0
+    if Object.keys(allocations).length > 0
       include ./includes/assetbalances
     hr
     .panel.panel-default.hidden-xs
