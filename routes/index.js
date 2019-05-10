@@ -146,6 +146,7 @@ function route_get_address(res, hash, assetguid, count) {
           allocations.push({
             asset_guid: guid,
             balance: utils.numberWithCommas(address.asset_balances[guid], 2),
+            allocation_balance: utils.numberWithCommas(address.asset_allocation_balances[guid], 2),
             asset_publicvalue: assetInfo.publicvalue,
             isOwner: assetInfo.address == address.a_id,
             owner_address: assetInfo.address

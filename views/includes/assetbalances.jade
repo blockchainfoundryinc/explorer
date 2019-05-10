@@ -12,4 +12,6 @@
               if asset.isOwner
                 +ownerIcon
             | )
-          td #{asset.balance}
+          td #{asset.allocation_balance}
+            if asset.balance > 0
+              | (#{asset.balance}
