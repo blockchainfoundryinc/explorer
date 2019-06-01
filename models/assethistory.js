@@ -4,6 +4,7 @@ var mongoose = require('mongoose')
 var AssetHistorySchema = new Schema({
   asset_id: { type: String, index: true},
   sender_address: { type: String, index: true},
+  symbol: { type: String},
   txtxype: { type: String},
   vin: { type: Array },
   vout: { type: Array },

@@ -13,12 +13,16 @@
           a.loading(href='/asset/#{asset_guid}',style='word-break: break-all') #{asset_guid}
       tr
         td
+          b #{settings.locale.sys_assetsymbol}
+        td #{symbol}
+      tr
+        td
           b #{settings.locale.sys_assetcontract}
         td #{contract}
       tr
         td
           b #{settings.locale.sys_assetpublicvalue}
-        td #{publicvalue}
+        td #{public_value}
       tr
         td
           if isAssetActivateTable
