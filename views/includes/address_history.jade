@@ -84,26 +84,26 @@ tbody
             - var amount = (out - vin);
             if amount < 0
               - amount = amount * -1
-              | - #{formatAsNumber(amount, 8)} #{tx.asset_publicvalue}
+              | - #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
             else if amount > 0
-              | + #{formatAsNumber(amount, 8)} #{tx.asset_publicvalue}
+              | + #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
             else
-              | #{formatAsNumber(amount, 8)} #{tx.asset_publicvalue}
+              | #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
         else if (vin === 0 && out > 0)
           td.info.nowrap
             - var amount = (vin - out);
             if amount < 0
               - amount = amount * -1
-              | - #{formatAsNumber(amount, 8)} #{tx.asset_publicvalue}
+              | - #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
             else if amount > 0
-              | + #{formatAsNumber(amount, 8)} #{tx.asset_publicvalue}
+              | + #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
             else
-              | #{formatAsNumber(amount, 8)} #{tx.asset_publicvalue}
+              | #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
         else if vin > 0
           td.success.nowrap
             - var amount = vin
-            | + #{formatAsNumber(amount, 8)} #{tx.asset_publicvalue}
+            | + #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
         else if vin === out
           td.danger.nowrap
             - var amount = out
-            | - #{formatAsNumber(amount, 8)} #{tx.asset_publicvalue}
+            | - #{formatAsNumber(amount, 8)} #{tx.asset_symbol}

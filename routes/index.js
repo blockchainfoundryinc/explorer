@@ -163,9 +163,10 @@ function route_get_address(res, hash, assetguid, count) {
                 let assetInfo = await syscoinHelper.getAssetInfo(alloc_guid);
                 assetBalances[alloc_guid] = {
                   asset_guid: alloc_guid,
+                  symbol: assetInfo.symbol,
                   balance: 0,
                   allocation_balance: utils.numberWithCommas(address.asset_allocation_balances[alloc_guid]),
-                  asset_publicvalue: assetInfo.publicvalue,
+                  asset_publicvalue: assetInfo.public_value,
                   isOwner: assetInfo.address === address.a_id,
                   owner_address: assetInfo.address
                 };
@@ -178,9 +179,10 @@ function route_get_address(res, hash, assetguid, count) {
             let assetInfo = await syscoinHelper.getAssetInfo(alloc_guid);
             assetBalances[alloc_guid] = {
               asset_guid: alloc_guid,
+              symbol: assetInfo.symbol,
               balance: 0,
               allocation_balance: utils.numberWithCommas(address.asset_allocation_balances[alloc_guid]),
-              asset_publicvalue: assetInfo.publicvalue,
+              asset_publicvalue: assetInfo.public_value,
               isOwner: assetInfo.address === address.a_id,
               owner_address: assetInfo.address
             };

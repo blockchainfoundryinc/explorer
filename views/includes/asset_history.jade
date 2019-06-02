@@ -21,10 +21,10 @@ tbody
         - var amount = tx.asset_total;
         if tx.txtype === 'assetsend' || tx.txtype === 'assetallocationsend' || tx.txtype == 'assettransfer'
           td.info.nowrap
-            | #{formatAsNumber(amount, 8)} #{tx.asset_publicvalue}
+            | #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
         else if tx.txtype === 'assetactivate' || tx.txtype === 'assetupdate'
           td.success.nowrap
-            | + #{formatAsNumber(amount, 8)} #{tx.asset_publicvalue}
+            | + #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
         else
           td.danger.nowrap
-            | - #{formatAsNumber(amount, 8)} #{tx.asset_publicvalue}
+            | - #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
