@@ -12,6 +12,6 @@
               if asset.isOwner
                 +ownerIcon
             | )
-          td #{asset.allocation_balance}
+          td #{asset.allocation_balance} #{asset.symbol}
             if asset.balance > 0
               span(title="Unallocated balance", style="cursor:pointer")  (#{asset.balance})
