@@ -61,7 +61,7 @@
   // menu settings
   "display": {
     "api": true,
-    "markets": true,
+    "markets": false,
     "richlist": true,
     "twitter": true,
     "facebook": false,
@@ -69,7 +69,7 @@
     "youtube": false,
     "search": true,
     "movement": true,
-    "network": true
+    "network": false
   },
 
   // index page (valid options for difficulty are POW, POS or Hybrid)
