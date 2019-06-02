@@ -16,7 +16,7 @@
   "symbol": "SYS",
 
   // logo
-  "logo": "/images/logo.jpg",
+  "logo": "/images/logo.png",
 
   // favicon
   "favicon": "public/favicon.ico",
