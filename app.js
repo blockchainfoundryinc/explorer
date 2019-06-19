@@ -13,6 +13,8 @@ var express = require('express')
   , request = require('request');
 
 var app = express();
+app.use(express.static('lib'));
+app.use(express.static('public'));
 
 // bitcoinapi
 bitcoinapi.setWalletDetails(settings.wallet);
