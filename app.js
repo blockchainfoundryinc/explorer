@@ -13,8 +13,9 @@ var express = require('express')
   , request = require('request');
 
 var app = express();
-app.use(express.static('lib', {maxAge: 365 * 24 * 60 * 60 * 1000}));
-app.use(express.static('public', {maxAge: 365 * 24 * 60 * 60 * 1000}));
+app.use(express.static(__dirname + '/lib', {maxAge: 365 * 24 * 60 * 60 * 1000}));
+app.use(express.static(__dirname + '/public', {maxAge: 365 * 24 * 60 * 60 * 1000}));
+app.use(express.static(__dirname + '/public/images', {maxAge: 365 * 24 * 60 * 60 * 1000}));
 
 // bitcoinapi
 bitcoinapi.setWalletDetails(settings.wallet);
