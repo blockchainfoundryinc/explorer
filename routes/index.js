@@ -146,6 +146,7 @@ function route_get_address(res, hash, assetguid, count) {
         if(Object.keys(address.asset_balances).length > 0) {
           for (let guid in address.asset_balances) {
             let assetInfo = await syscoinHelper.getAssetInfo(guid);
+            console.log("asset info is ", assetInfo);
             assetBalances[guid] = {
               asset_guid: guid,
               balance: utils.numberWithCommas(address.asset_balances[guid], 2),
