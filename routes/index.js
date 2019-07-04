@@ -333,7 +333,7 @@ router.get('/address/:hash/asset/:assetguid/:count', function(req, res) {
   route_get_address(res, req.param('hash'), req.param('assetguid'), req.param('count'));
 });
 
-router.post('/search', function(req, res) {
+router.post('/search', async function(req, res) {
   var query = req.body.search;
   if (query.length == 64) {
     if (query == settings.genesis_tx) {
@@ -352,6 +352,13 @@ router.post('/search', function(req, res) {
           });
         }
       });
+    }
+  } else if (query.length == 9) {
+    let asset = await syscoinHelper.getAssetInfo(query);
+    if(asset.asset_guid) {
+      res.redirect('/asset/' + asset.asset_guid);
+    }else{
+      route_get_index(res, locale.ex_search_error + query );
     }
   } else {
     db.get_address(query, function(address) {
