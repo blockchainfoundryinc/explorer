@@ -13,8 +13,6 @@ var express = require('express')
   , request = require('request');
 
 var app = express();
-app.use(express.static(__dirname + '/lib', {maxAge: 365 * 24 * 60 * 60 * 1000}));
-app.use(express.static(__dirname + '/public', {maxAge: 365 * 24 * 60 * 60 * 1000}));
 
 // bitcoinapi
 bitcoinapi.setWalletDetails(settings.wallet);
@@ -48,7 +46,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), {maxAge: 15 * 24 * 60 * 60 * 1000}));
 
 // routes
 app.use('/api', bitcoinapi.app);
