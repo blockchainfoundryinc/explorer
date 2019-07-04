@@ -31,7 +31,7 @@ tbody
       if tx.txtype === 'send' && amount > 0
         td.hiddex-xs receive
       else
-        td.hiddex-xs #{tx.txtype}
+        td.hiddex-xs R #{tx.txtype}
       if tx.txtype == 'syscoinburn' || tx.txtype == 'assetallocationburn'
           +burnIcon(tx.contract)
       if tx.asset_publicvalue === undefined
