@@ -354,10 +354,10 @@ router.post('/search', async function(req, res) {
       });
     }
   } else if (query.length == 9) {
-    let asset = await syscoinHelper.getAssetInfo(query);
-    if(asset.asset_guid) {
+    try {
+      let asset = await syscoinHelper.getAssetInfo(query);
       res.redirect('/asset/' + asset.asset_guid);
-    }else{
+    } catch (e) {
       route_get_index(res, locale.ex_search_error + query );
     }
   } else {
