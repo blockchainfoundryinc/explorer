@@ -27,10 +27,13 @@ tbody
       td.hidden-xs #{time} 
       td.hidden-xs(style='word-break: break-all')
         a(href='/tx/#{tx.txid}') #{tx.txid}
-      td.hiddex-xs #{tx.txtype}
-        if tx.txtype == 'syscoinburn' || tx.txtype == 'assetallocationburn'
+      - var amount = (out > 0 && vin > 0) ? (out - vin) / 100000000 : out;
+      if tx.txtype === 'send' && amount > 0
+        td.hiddex-xs receive
+      else
+        td.hiddex-xs #{tx.txtype}
+      if tx.txtype == 'syscoinburn' || tx.txtype == 'assetallocationburn'
           +burnIcon(tx.contract)
-
       if tx.asset_publicvalue === undefined
         -//NORMAL TX
         if out > 0 && vin > 0
