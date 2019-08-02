@@ -10,9 +10,11 @@ var express = require('express')
   , lib = require('./lib/explorer')
   , db = require('./lib/database')
   , locale = require('./lib/locale')
-  , request = require('request');
+  , request = require('request')
+  , cors = require('cors');
 
 var app = express();
+app.use(cors());
 
 // bitcoinapi
 bitcoinapi.setWalletDetails(settings.wallet);
@@ -58,10 +60,17 @@ app.use('/ext/getmoneysupply', function(req,res){
   });
 });
 
+// extended API routes
 app.use('/ext/address/:address', (req, res) => {
   res.type('text/html');
   res.status(200);
   res.send('<p>HELLO WORLD!');
+});
+
+app.use('/ext/sendfrom', (req, res) => {
+});
+
+app.use('/ext/assetallocationsend', (req, res) => {
 });
 
 app.use('/ext/getaddress/:hash', function(req,res){
