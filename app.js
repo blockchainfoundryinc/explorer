@@ -11,7 +11,8 @@ var express = require('express')
   , db = require('./lib/database')
   , locale = require('./lib/locale')
   , request = require('request')
-  , cors = require('cors');
+  , cors = require('cors')
+  , syscoinHelper = require('lib/syscoin');
 
 var app = express();
 app.use(cors());
@@ -61,16 +62,14 @@ app.use('/ext/getmoneysupply', function(req,res){
 });
 
 // extended API routes
-app.use('/ext/address/:address', (req, res) => {
-  res.type('text/html');
-  res.status(200);
-  res.send('<p>HELLO WORLD!');
+app.use('/ext/sendfrom', async (req, res) => {
+  let rawtx = await syscoinHelper.sendFrom(req.param('fundingAddress'), req.param('address'), req.param('amount'));
+  res.send(rawtx);
 });
 
-app.use('/ext/sendfrom', (req, res) => {
-});
-
-app.use('/ext/assetallocationsend', (req, res) => {
+app.use('/ext/assetallocationsend', async (req, res) => {
+  let rawtx = await syscoinHelper.assetAllocationSend(req.param('assetGuid'), req.param('senderAddress'), req.param('receiverAddress'), req.param('amount'));
+  res.send(rawtx);
 });
 
 app.use('/ext/getaddress/:hash', function(req,res){
