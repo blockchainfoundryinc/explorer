@@ -21,8 +21,7 @@ app.use(cors());
 bitcoinapi.setWalletDetails(settings.wallet);
 if (settings.heavy != true) {
   bitcoinapi.setAccess('only', ['getinfo', 'getnetworkhashps', 'getmininginfo','getdifficulty', 'getconnectioncount',
-    'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction', 'getpeerinfo', 'gettxoutsetinfo', 'sendrawtransaction', 'sendfrom',
-    'assetallocationsend']);
+    'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction', 'getpeerinfo', 'gettxoutsetinfo', 'sendrawtransaction']);
 } else {
   // enable additional heavy api calls
   /*
@@ -39,7 +38,7 @@ if (settings.heavy != true) {
   bitcoinapi.setAccess('only', ['getinfo', 'getstakinginfo', 'getnetworkhashps', 'getdifficulty', 'getconnectioncount',
     'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction','getmaxmoney', 'getvote', 'getmaxvote', 'getphase',
     'getreward', 'getnextrewardestimate', 'getnextrewardwhenstr', 'getnextrewardwhensec', 'getsupply', 'gettxoutsetinfo',
-    'sendrawtransaction', 'sendfrom', 'assetallocationsend']);
+    'sendrawtransaction']);
 }
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
