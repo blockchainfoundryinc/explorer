@@ -141,55 +141,7 @@ function route_get_address(res, hash, assetguid, count) {
 
         //TODO: refactor
         //build a list of all asset keys
-        let assetBalances = {};
-
-        if(Object.keys(address.asset_balances).length > 0) {
-          for (let guid in address.asset_balances) {
-            let assetInfo = await syscoinHelper.getAssetInfo(guid);
-            console.log("asset info is ", assetInfo);
-            assetBalances[guid] = {
-              asset_guid: guid,
-              balance: utils.numberWithCommas(address.asset_balances[guid], 2),
-              allocation_balance: 0,
-              symbol: assetInfo.symbol,
-              isOwner: assetInfo.address === address.a_id,
-              owner_address: assetInfo.address
-            };
-
-            //go through allocated balances and assign or create more fields
-            for (let alloc_guid in address.asset_allocation_balances) {
-              if (assetBalances[alloc_guid] != undefined) {
-                assetBalances[alloc_guid].allocation_balance = utils.numberWithCommas(address.asset_allocation_balances[alloc_guid]);
-              } else {
-                let assetInfo = await syscoinHelper.getAssetInfo(alloc_guid);
-                assetBalances[alloc_guid] = {
-                  asset_guid: alloc_guid,
-                  symbol: assetInfo.symbol,
-                  balance: 0,
-                  allocation_balance: utils.numberWithCommas(address.asset_allocation_balances[alloc_guid]),
-                  asset_publicvalue: assetInfo.public_value,
-                  isOwner: assetInfo.address === address.a_id,
-                  owner_address: assetInfo.address
-                };
-              }
-            }
-          }
-        }else{
-          //go through allocated balances and assign or create more fields
-          for (let alloc_guid in address.asset_allocation_balances) {
-            let assetInfo = await syscoinHelper.getAssetInfo(alloc_guid);
-            assetBalances[alloc_guid] = {
-              asset_guid: alloc_guid,
-              symbol: assetInfo.symbol,
-              balance: 0,
-              allocation_balance: utils.numberWithCommas(address.asset_allocation_balances[alloc_guid]),
-              asset_publicvalue: assetInfo.public_value,
-              isOwner: assetInfo.address === address.a_id,
-              owner_address: assetInfo.address
-            };
-          }
-        }
-
+        let assetBalances = await utils.buildAssetBalanceList(address);
         const formatAsNumber = utils.numberWithCommas;
 
         if(assetguid != null) {
