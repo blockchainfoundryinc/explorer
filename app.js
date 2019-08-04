@@ -12,7 +12,8 @@ var express = require('express')
   , locale = require('./lib/locale')
   , request = require('request')
   , cors = require('cors')
-  , syscoinHelper = require('./lib/syscoin');
+  , syscoinHelper = require('./lib/syscoin')
+  , utils = require('./lib/utils');
 
 var app = express();
 app.use(cors());
