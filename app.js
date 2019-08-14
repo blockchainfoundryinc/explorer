@@ -83,6 +83,7 @@ app.use('/ext/getaddress/:hash', (req,res) => {
         return entry.addresses;
       });
 
+      console.log('txids', txIds);
       let last_txs = await syscoinHelper.getTxListDetails(txIds);
 
       let a_ext = {
