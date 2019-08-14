@@ -78,13 +78,20 @@ app.use('/ext/getaddress/:hash', (req,res) => {
       // return asset balance info
       let asset_balances = await utils.buildAssetBalanceList(address);
 
-      var a_ext = {
+      // return a better tx list
+      let txIds = address.txs.map(entry => {
+        return entry.addresses;
+      });
+
+      let last_txs = await syscoinHelper.getTxListDetails(txIds);
+
+      let a_ext = {
         address: address.a_id,
         sent: (address.sent / 100000000),
         received: (address.received / 100000000),
         balance: (address.balance / 100000000).toString().replace(/(^-+)/mg, ''),
         asset_balances,
-        last_txs: address.txs,
+        last_txs: last_txs,
       };
       res.send(a_ext);
     } else {
