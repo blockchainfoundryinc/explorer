@@ -134,7 +134,7 @@ app.use('/ext/connections', function (req, res) {
 });
 
 // this takes an array of { [txid]: voutindex } and returns the input objects reflected by that, mapped to the txid { [txid]: input }
-app.use('/ext/getinputs', async (req, res) => {
+app.use('/ext/getoutputs', async (req, res) => {
   console.log("getinputs:", req.body);
 
   res.send(await syscoinHelper.getRawTransactionBatch(req.body));
