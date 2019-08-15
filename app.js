@@ -138,9 +138,9 @@ app.use('/ext/getinputs', (req,res) => {
   let inputs = req.param('inputs');
   console.log("getinputs:", inputs, req.body);
 
-  for (let [key, value] of Object.entries(JSON.parse(inputs))) {
-    console.log(`${key}: ${value}`);
-  }
+  //for (let [key, value] of Object.entries(JSON.parse(inputs))) {
+  //  console.log(`${key}: ${value}`);
+  //}
 
   res.send();
 });
