@@ -142,7 +142,6 @@ app.use('/ext/getinputs', (req,res) => {
   //  console.log(`${key}: ${value}`);
   //}
 
-  res.send({});
 });
 
 // locals
