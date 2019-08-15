@@ -136,13 +136,13 @@ app.use('/ext/connections', function(req,res){
 // this takes an array of { [txid]: voutindex } and returns the input objects reflected by that, mapped to the txid { [txid]: input }
 app.use('/ext/getinputs', (req,res) => {
   //let inputs = req.param('inputs');
-  console.log("getinputs:", req.body);
+  // console.log("getinputs:", req.body);
 
   //for (let [key, value] of Object.entries(JSON.parse(inputs))) {
   //  console.log(`${key}: ${value}`);
   //}
 
-  res.send();
+  res.send({});
 });
 
 // locals
