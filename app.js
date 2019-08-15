@@ -21,7 +21,7 @@ app.use(cors());
 // bitcoinapi
 bitcoinapi.setWalletDetails(settings.wallet);
 if (settings.heavy != true) {
-  bitcoinapi.setAccess('only', ['getinfo', 'getnetworkhashps', 'getmininginfo','getdifficulty', 'getconnectioncount',
+  bitcoinapi.setAccess('only', ['getinfo', 'getnetworkhashps', 'getmininginfo', 'getdifficulty', 'getconnectioncount',
     'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction', 'getpeerinfo', 'gettxoutsetinfo', 'sendrawtransaction']);
 } else {
   // enable additional heavy api calls
@@ -37,7 +37,7 @@ if (settings.heavy != true) {
     getmaxmoney - Returns the maximum possible money supply.
   */
   bitcoinapi.setAccess('only', ['getinfo', 'getstakinginfo', 'getnetworkhashps', 'getdifficulty', 'getconnectioncount',
-    'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction','getmaxmoney', 'getvote', 'getmaxvote', 'getphase',
+    'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction', 'getmaxmoney', 'getvote', 'getmaxvote', 'getphase',
     'getreward', 'getnextrewardestimate', 'getnextrewardwhenstr', 'getnextrewardwhensec', 'getsupply', 'gettxoutsetinfo',
     'sendrawtransaction']);
 }
@@ -55,9 +55,9 @@ app.use(express.static(path.join(__dirname, 'public'), {maxAge: 15 * 24 * 60 * 6
 // routes
 app.use('/api', bitcoinapi.app);
 app.use('/', routes);
-app.use('/ext/getmoneysupply', function(req,res){
-  lib.get_supply(function(supply){
-    res.send(' '+supply);
+app.use('/ext/getmoneysupply', function (req, res) {
+  lib.get_supply(function (supply) {
+    res.send(' ' + supply);
   });
 });
 
@@ -72,7 +72,7 @@ app.use('/ext/assetallocationsend', async (req, res) => {
   res.send(rawtx);
 });
 
-app.use('/ext/getaddress/:hash', (req,res) => {
+app.use('/ext/getaddress/:hash', (req, res) => {
   db.get_address(req.param('hash'), async (address) => {
     if (address) {
       // return asset balance info
@@ -96,52 +96,48 @@ app.use('/ext/getaddress/:hash', (req,res) => {
       };
       res.send(a_ext);
     } else {
-      res.send({ error: 'address not found.', hash: req.param('hash')})
+      res.send({error: 'address not found.', hash: req.param('hash')});
     }
   });
 });
 
-app.use('/ext/getbalance/:hash', function(req,res){
-  db.get_address(req.param('hash'), function(address){
+app.use('/ext/getbalance/:hash', function (req, res) {
+  db.get_address(req.param('hash'), function (address) {
     if (address) {
       res.send((address.balance / 100000000).toString().replace(/(^-+)/mg, ''));
     } else {
-      res.send({ error: 'address not found.', hash: req.param('hash')})
+      res.send({error: 'address not found.', hash: req.param('hash')});
     }
   });
 });
 
-app.use('/ext/getdistribution', function(req,res){
-  db.get_richlist(settings.coin, function(richlist){
-    db.get_stats(settings.coin, function(stats){
-      db.get_distribution(richlist, stats, function(dist){
+app.use('/ext/getdistribution', function (req, res) {
+  db.get_richlist(settings.coin, function (richlist) {
+    db.get_stats(settings.coin, function (stats) {
+      db.get_distribution(richlist, stats, function (dist) {
         res.send(dist);
       });
     });
   });
 });
 
-app.use('/ext/getlasttxs/:min', function(req,res){
-  db.get_last_txs(settings.index.last_txs, (req.params.min * 100000000), function(txs){
+app.use('/ext/getlasttxs/:min', function (req, res) {
+  db.get_last_txs(settings.index.last_txs, (req.params.min * 100000000), function (txs) {
     res.send({data: txs});
   });
 });
 
-app.use('/ext/connections', function(req,res){
-  db.get_peers(function(peers){
+app.use('/ext/connections', function (req, res) {
+  db.get_peers(function (peers) {
     res.send({data: peers});
   });
 });
 
 // this takes an array of { [txid]: voutindex } and returns the input objects reflected by that, mapped to the txid { [txid]: input }
-app.use('/ext/getinputs', (req,res) => {
-   console.log("getinputs:", req.body);
+app.use('/ext/getinputs', async (req, res) => {
+  console.log("getinputs:", req.body);
 
-  for (let [key, value] of Object.entries(req.body)) {
-    console.log(`${key}: ${value}`);
-  }
-
-  res.send({});
+  res.send(await syscoinHelper.getRawTransactionBatch(req.body));
 });
 
 // locals
@@ -167,32 +163,32 @@ app.set('theme', settings.theme);
 app.set('labels', settings.labels);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+app.use(function (req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
+  app.use(function (err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err
     });
+  });
 }
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
+app.use(function (err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    error: {}
+  });
 });
 
 module.exports = app;
