@@ -134,7 +134,7 @@ app.use('/ext/connections', function(req,res){
 });
 
 app.use('/ext/getinputs', (req,res) => {
-  let inputs = req.params.inputs;
+  let inputs = req.param('inputs');
   console.log("getinputs:", inputs);
 });
 
