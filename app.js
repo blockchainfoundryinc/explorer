@@ -133,6 +133,11 @@ app.use('/ext/connections', function(req,res){
   });
 });
 
+app.use('/ext/getinputs', (req,res) => {
+  let inputs = req.params.inputs;
+  console.log("getinputs:", inputs);
+});
+
 // locals
 app.set('title', settings.title);
 app.set('symbol', settings.symbol);
