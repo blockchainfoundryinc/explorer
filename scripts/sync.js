@@ -203,13 +203,13 @@ is_locked(function (exists) {
               if (exists) {
                 db.update_markets_db(mkt, function(err) {
                   if (!err) {
-                    console.log('%s market data updated successfully.', mkt);
+                    // console.log('%s market data updated successfully.', mkt);
                     complete++;
                     if (complete == markets.length) {
                       exit();
                     }
                   } else {
-                    console.log('%s: %s', mkt, err);
+                    // console.log('%s: %s', mkt, err);
                     complete++;
                     if (complete == markets.length) {
                       exit();
@@ -217,7 +217,7 @@ is_locked(function (exists) {
                   }
                 });
               } else {
-                console.log('error: entry for %s does not exists in markets db.', mkt);
+                // console.log('error: entry for %s does not exists in markets db.', mkt);
                 complete++;
                 if (complete == markets.length) {
                   exit();
