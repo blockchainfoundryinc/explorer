@@ -67,7 +67,7 @@ app.use('/ext/sendfrom', async (req, res) => {
     let rawtx = await syscoinHelper.sendFrom(req.param('fundingAddress'), req.param('address'), req.param('amount'));
     res.send(rawtx);
   } catch (e) {
-    res.error(e);
+    res.status(500).json({ error: e });
   }
 });
 
@@ -76,7 +76,7 @@ app.use('/ext/assetallocationsend', async (req, res) => {
     let rawtx = await syscoinHelper.assetAllocationSend(req.param('assetGuid'), req.param('senderAddress'), req.param('receiverAddress'), req.param('amount'));
     res.send(rawtx);
   } catch (e) {
-    res.error(e);
+    res.status(500).json({ error: e });
   }
 });
 
@@ -87,7 +87,7 @@ app.use('/ext/sendfrom2', async (req, res, next) => {
     let prevOuts = await utils.getPrevOutsFromRawTx(rawtx.hex);
     res.send({ rawtx, prevOuts });
   } catch (e) {
-    next(e);
+    res.status(500).json({ error: e });
   }
 });
 
@@ -97,7 +97,7 @@ app.use('/ext/assetallocationsend2', async (req, res) => {
     let prevOuts = await utils.getPrevOutsFromRawTx(rawtx.hex);
     res.send({ rawtx, prevOuts });
   } catch (e) {
-    res.error(e);
+    res.status(500).json({ error: e });
   }
 });
 
