@@ -81,13 +81,13 @@ app.use('/ext/assetallocationsend', async (req, res) => {
 });
 
 
-app.use('/ext/sendfrom2', async (req, res) => {
+app.use('/ext/sendfrom2', async (req, res, next) => {
   try {
     let rawtx = await syscoinHelper.sendFrom(req.param('fundingAddress'), req.param('address'), req.param('amount'));
     let prevOuts = await utils.getPrevOutsFromRawTx(rawtx.hex);
     res.send({ rawtx, prevOuts });
   } catch (e) {
-    res.error(e);
+    next(e);
   }
 });
 
