@@ -63,14 +63,52 @@ app.use('/ext/getmoneysupply', function (req, res) {
 
 // extended API routes
 app.use('/ext/sendfrom', async (req, res) => {
-  let rawtx = await syscoinHelper.sendFrom(req.param('fundingAddress'), req.param('address'), req.param('amount'));
-  res.send(rawtx);
+  try {
+    let rawtx = await syscoinHelper.sendFrom(req.param('fundingAddress'), req.param('address'), req.param('amount'));
+    res.send(rawtx);
+  } catch (e) {
+    res.error(e);
+  }
 });
 
 app.use('/ext/assetallocationsend', async (req, res) => {
-  let rawtx = await syscoinHelper.assetAllocationSend(req.param('assetGuid'), req.param('senderAddress'), req.param('receiverAddress'), req.param('amount'));
-  res.send(rawtx);
+  try {
+    let rawtx = await syscoinHelper.assetAllocationSend(req.param('assetGuid'), req.param('senderAddress'), req.param('receiverAddress'), req.param('amount'));
+    res.send(rawtx);
+  } catch (e) {
+    res.error(e);
+  }
 });
+
+
+app.use('/ext/sendfrom2', async (req, res) => {
+  try {
+    let rawtx = await syscoinHelper.sendFrom(req.param('fundingAddress'), req.param('address'), req.param('amount'));
+    let prevOuts = await utils.getPrevOutsFromRawTx(rawtx.hex);
+    res.send({ rawtx, prevOuts });
+  } catch (e) {
+    res.error(e);
+  }
+});
+
+app.use('/ext/assetallocationsend2', async (req, res) => {
+  try {
+    let rawtx = await syscoinHelper.assetAllocationSend(req.param('assetGuid'), req.param('senderAddress'), req.param('receiverAddress'), req.param('amount'));
+    let prevOuts = await utils.getPrevOutsFromRawTx(rawtx.hex);
+    res.send({ rawtx, prevOuts });
+  } catch (e) {
+    res.error(e);
+  }
+});
+
+// this takes an array of { txid, index } and returns the input objects reflected by that, mapped to the txid { [txid]: input }
+app.use('/ext/getoutputs', async (req, res) => {
+  console.log("getinputs:", req.body);
+
+  res.send(await syscoinHelper.getRawTransactionBatch(req.body));
+});
+
+
 
 app.use('/ext/getaddress/:hash', (req, res) => {
   db.get_address(req.param('hash'), async (address) => {
@@ -132,13 +170,6 @@ app.use('/ext/connections', function (req, res) {
   db.get_peers(function (peers) {
     res.send({data: peers});
   });
-});
-
-// this takes an array of { [txid]: voutindex } and returns the input objects reflected by that, mapped to the txid { [txid]: input }
-app.use('/ext/getoutputs', async (req, res) => {
-  console.log("getinputs:", req.body);
-
-  res.send(await syscoinHelper.getRawTransactionBatch(req.body));
 });
 
 // locals
