@@ -87,6 +87,7 @@ app.use('/ext/sendfrom2', async (req, res, next) => {
     let prevOuts = await utils.getPrevOutsFromRawTx(rawtx.hex);
     res.send({ rawtx, prevOuts });
   } catch (e) {
+    console.log('ERR', e);
     res.status(500).json({ error: e });
   }
 });
