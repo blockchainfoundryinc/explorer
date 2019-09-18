@@ -62,25 +62,6 @@ app.use('/ext/getmoneysupply', function (req, res) {
 });
 
 // extended API routes
-app.use('/ext/sendfrom', async (req, res) => {
-  try {
-    let rawtx = await syscoinHelper.sendFrom(req.param('fundingAddress'), req.param('address'), req.param('amount'));
-    res.send(rawtx);
-  } catch (e) {
-    res.status(500).json({ error: e });
-  }
-});
-
-app.use('/ext/assetallocationsend', async (req, res) => {
-  try {
-    let rawtx = await syscoinHelper.assetAllocationSend(req.param('assetGuid'), req.param('senderAddress'), req.param('receiverAddress'), req.param('amount'));
-    res.send(rawtx);
-  } catch (e) {
-    res.status(500).json({ error: e });
-  }
-});
-
-
 app.use('/ext/sendfrom2', async (req, res, next) => {
   try {
     let rawtx = await syscoinHelper.sendFrom(req.param('fundingAddress'), req.param('address'), req.param('amount'));
@@ -97,6 +78,16 @@ app.use('/ext/assetallocationsend2', async (req, res) => {
     let rawtx = await syscoinHelper.assetAllocationSend(req.param('assetGuid'), req.param('senderAddress'), req.param('receiverAddress'), req.param('amount'));
     let prevOuts = await utils.getPrevOutsFromRawTx(rawtx.hex);
     res.send({ rawtx, prevOuts });
+  } catch (e) {
+    res.status(500).json({ error: e });
+  }
+});
+
+
+app.use('/ext/sendrawtransaction', async (req, res) => {
+  try {
+    let txid = await syscoinHelper.sendRawTransaction(req.param('hexstring'));
+    res.send({ txid });
   } catch (e) {
     res.status(500).json({ error: e });
   }
