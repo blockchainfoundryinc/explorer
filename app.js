@@ -65,8 +65,9 @@ app.use('/ext/getmoneysupply', function (req, res) {
 app.use('/ext/sendfrom2', async (req, res, next) => {
   try {
     let rawtx = await syscoinHelper.sendFrom(req.param('fundingAddress'), req.param('address'), req.param('amount'));
+    let json = await syscoinHelper.decodeRawTransaction(rawtx.hex);
     let prevOuts = await utils.getPrevOutsFromRawTx(rawtx.hex);
-    res.send({ rawtx, prevOuts });
+    res.send({ rawtx, prevOuts, json });
   } catch (e) {
     console.log('ERR', e);
     res.status(500).json({ error: e });
@@ -76,8 +77,9 @@ app.use('/ext/sendfrom2', async (req, res, next) => {
 app.use('/ext/assetallocationsend2', async (req, res) => {
   try {
     let rawtx = await syscoinHelper.assetAllocationSend(req.param('assetGuid'), req.param('senderAddress'), req.param('receiverAddress'), req.param('amount'));
+    let json = await syscoinHelper.decodeRawTransaction(rawtx.hex);
     let prevOuts = await utils.getPrevOutsFromRawTx(rawtx.hex);
-    res.send({ rawtx, prevOuts });
+    res.send({ rawtx, prevOuts, json });
   } catch (e) {
     res.status(500).json({ error: e });
   }
@@ -216,3 +218,5 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
+
+
