@@ -32,7 +32,7 @@ tbody
         td.hiddex-xs receive
       else
         td.hiddex-xs #{tx.txtype}
-        if tx.txtype == 'syscoinburn' || tx.txtype == 'assetallocationburn'
+          if tx.txtype == 'syscoinburn' || tx.txtype == 'assetallocationburn'
             +burnIcon(tx.contract)
       if tx.asset_publicvalue === undefined
         -//NORMAL TX
