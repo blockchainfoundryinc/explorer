@@ -12,5 +12,5 @@
               if asset.isOwner
                 +ownerIcon
             | )
-          td #{formatAsNumber(parseFloat(asset.allocation_balance), 8)} #{asset.symbol}
+          td #{formatAsNumber(+asset.allocation_balance.toFixed(8), 8)} #{asset.symbol}
 
