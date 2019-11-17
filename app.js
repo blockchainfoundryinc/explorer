@@ -166,6 +166,11 @@ app.use('/ext/connections', function (req, res) {
   });
 });
 
+app.use('/ext/getchaintips', async function (req, res) {
+  let tips = await syscoinHelper.getChainTips();
+  res.send(tips);
+});
+
 // locals
 app.set('title', settings.title);
 app.set('symbol', settings.symbol);
