@@ -42,7 +42,7 @@ if (settings.heavy != true) {
     'sendrawtransaction', 'getchaintips']);
 }
 // view engine setup
-app.set('views', path.join(__dirname, 'view, 's'));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(favicon(path.join(__dirname, settings.favicon)));
