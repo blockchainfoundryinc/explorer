@@ -39,10 +39,10 @@ if (settings.heavy != true) {
   bitcoinapi.setAccess('only', ['getinfo', 'getstakinginfo', 'getnetworkhashps', 'getdifficulty', 'getconnectioncount',
     'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction', 'getmaxmoney', 'getvote', 'getmaxvote', 'getphase',
     'getreward', 'getnextrewardestimate', 'getnextrewardwhenstr', 'getnextrewardwhensec', 'getsupply', 'gettxoutsetinfo',
-    'sendrawtransaction']);
+    'sendrawtransaction', 'getchaintips']);
 }
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'view, 's'));
 app.set('view engine', 'jade');
 
 app.use(favicon(path.join(__dirname, settings.favicon)));
