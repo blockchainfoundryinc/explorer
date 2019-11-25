@@ -15,7 +15,7 @@ tbody
       each r in tx.vout
         if r.addresses == address.a_id
           - out = r.amount
-        if r.addresses == 'syscoinburn'
+        if r.addresses == 'syscoinburn' && tx.txtype !== 'assetactivate'
           - tx.txtype = 'syscoinburn'
       each s in tx.vin
         if s.addresses == address.a_id
@@ -107,6 +107,6 @@ tbody
             - var amount = vin
             | + #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
         else if vin === out
-          td.danger.nowrap
+          td.success.nowrap
             - var amount = out
-            | - #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
+            | + #{formatAsNumber(amount, 8)} #{tx.asset_symbol}
