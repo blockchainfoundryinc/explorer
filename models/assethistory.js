@@ -11,7 +11,7 @@ var AssetHistorySchema = new Schema({
   txdata: { type: Object },
   height: { type: Number },
   txid: { type: String }
-}, {id: false});
+});
 
 module.exports = mongoose.model('AssetHistory', AssetHistorySchema);
 

@@ -9,7 +9,7 @@ var AddressHistorySchema = new Schema({
   assetType: {type: String},
   block: {type: Number},
   timestamp: {type: Number}
-}, {id: false});
+});
 
 module.exports = mongoose.model('AddressHistory', AddressHistorySchema);
 
