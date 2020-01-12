@@ -154,9 +154,9 @@ block content
                               =r.address
                             if assetInfo.address == r.address
                               +ownerIcon
-                          td.danger.hidden-xs #{ramount.toFixed(8)}
+                          td.danger.hidden-xs #{ramount}
                         tr.hidden-lg.hidden-md.hidden-sm
-                          td.danger #{ramount.toFixed(8)}
+                          td.danger #{ramount}
                   else
                     tr.info(style='text-align:center')
                       td #{settings.locale.proof_of_stake}
@@ -182,9 +182,9 @@ block content
                             +ownerIcon
                           if r.address == 'burn'
                             +burnIcon(tx.contract)
-                        td.success.hidden-xs  #{ramount.toFixed(8)}
+                        td.success.hidden-xs  #{ramount}
                       tr.hidden-lg.hidden-md.hidden-sm
-                        td.success #{ramount.toFixed(8)}
+                        td.success #{ramount}
                     else
                       tr
                         td
@@ -194,7 +194,7 @@ block content
                             +ownerIcon
                           if r.address == 'burn'
                             +burnIcon(tx.contract)
-                        td.success.hidden-xs  #{ramount.toFixed(8)}
+                        td.success.hidden-xs  #{ramount}
                       tr.hidden-lg.hidden-md.hidden-sm
-                        td.success #{ramount.toFixed(8)}
+                        td.success #{ramount}
     .footer-padding
