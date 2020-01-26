@@ -68,19 +68,21 @@ tbody
           -if(tx.asset_vin.length && tx.asset_vin[0].address === address.a_id) { //address is SENDER
             -for(var i = 0; i < tx.asset_vout.length; i++) {
               -if(tx.asset_vout[i].address !== address.a_id) {
-                -out.plus(new BigNumber(tx.asset_vout[i].amount));
+                -out = out.plus(new BigNumber(tx.asset_vout[i].amount));
               -}
             -}
           -}else{ //address is RECEIVER
             -//count the amounts that DO go to this address
             -for(var x = 0; x < tx.asset_vout.length; x++) {
               -if(tx.asset_vout[x].address === address.a_id) {
-                -vin.plus(new BigNumber(tx.asset_vout[x].amount));
+                -vin = vin.plus(new BigNumber(tx.asset_vout[x].amount));
               -}
             -}
           -}
         -}
-        -console.log(tx.txid, "vin:", vin.toFixed(), "vout", out.toFixed());
+        -vin = vin.toNumber()
+        -out = out.toNumber();
+        -console.log(tx.txid, "vin:", vin, "vout", out);
 
         if (out > 0 && vin > 0)
           td.info.nowrap
