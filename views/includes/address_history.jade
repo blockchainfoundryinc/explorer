@@ -61,25 +61,27 @@ tbody
         - vin = 0
 
         -if(tx.txtype === 'assetactivate') {
-          -vin = tx.asset_total
-          -out = 0
+          -vin = new BigNumber(tx.asset_total)
+          -out = new BigNumber(0)
         -}else{
           -console.log(tx.txid, JSON.stringify(tx.asset_vout));
           -if(tx.asset_vin.length && tx.asset_vin[0].address === address.a_id) { //address is SENDER
             -for(var i = 0; i < tx.asset_vout.length; i++) {
               -if(tx.asset_vout[i].address !== address.a_id) {
-                -out += tx.asset_vout[i].amount;
+                -out.plus(new BigNumber(tx.asset_vout[i].amount));
               -}
             -}
           -}else{ //address is RECEIVER
             -//count the amounts that DO go to this address
             -for(var x = 0; x < tx.asset_vout.length; x++) {
               -if(tx.asset_vout[x].address === address.a_id) {
-                -vin += tx.asset_vout[x].amount;
+                -vin.plus(new BigNumber(tx.asset_vout[x].amount));
               -}
             -}
           -}
         -}
+        -vin = vin.toNumber();
+        -out = out.toNumber();
         -console.log(tx.txid, "vin:", vin, "vout", out);
 
         if (out > 0 && vin > 0)

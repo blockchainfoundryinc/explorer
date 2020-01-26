@@ -143,15 +143,16 @@ function route_get_address(res, hash, assetguid, count) {
         //build a list of all asset keys
         let assetBalances = await utils.buildAssetBalanceList(address);
         const formatAsNumber = utils.numberWithCommas;
+        const BigNumber = require('bignumber.js');
 
         if(assetguid != null) {
           if(txs.length > 0) {
-            res.render('addressasset', { active: 'address', address: address, txs: txs, allocations: assetBalances, formatAsNumber});
+            res.render('addressasset', { active: 'address', address: address, txs: txs, allocations: assetBalances, formatAsNumber, BigNumber});
           }else{
             route_get_index(res, 'No asset transactions matching GUID ' + assetguid + ' found for hash ' + hash);
           }
         }else{
-          res.render('address', { active: 'address', address: address, txs: txs, allocations: assetBalances, formatAsNumber});
+          res.render('address', { active: 'address', address: address, txs: txs, allocations: assetBalances, formatAsNumber, BigNumber});
         }
       });
 
