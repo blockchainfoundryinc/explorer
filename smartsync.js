@@ -1,6 +1,6 @@
 const io = require('socket.io-client');
 const socket = io('http://localhost:9999');
-const spawn = require('child_process');
+const { spawn } = require('child_process');
 
 socket.on('connect', handleConnect);
 socket.on('hashblock', handleMessage);
