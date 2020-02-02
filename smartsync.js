@@ -10,7 +10,7 @@ console.log('smartsync started.');
 
 function handleConnect() {
   console.log('websocket connected.');
-  handleMessage('test');
+  handleMessage('init sync');
 }
 
 function handleMessage(websocketMessage) {
