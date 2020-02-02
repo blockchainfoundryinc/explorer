@@ -1,9 +1,8 @@
 const io = require('socket.io-client');
-this.address = address;
-this.socket = io('localhost:9999');
-this.socket.on('connect', handleConnect);
-this.socket.on('hashblock', handleMessage);
-this.socket.on('disconnect', handleDisconnect);
+const socket = io('localhost:9999');
+socket.on('connect', handleConnect);
+socket.on('hashblock', handleMessage);
+socket.on('disconnect', handleDisconnect);
 
 function handleConnect() {
   console.log('websocket connected.');
