@@ -14,7 +14,7 @@ function handleConnect() {
 
 function handleMessage(websocketMessage) {
   console.log('websocket message:', websocketMessage);
-  const child = spawn('pwd', );
+  const child = spawn('rm -rf ./tmp/index.pid && node ./scripts/sync.js index update && node ./scripts/sync.js market update', );
   child.stdout.setEncoding('utf8');
   // use child.stdout.setEncoding('utf8'); if you want text chunks
   child.stdout.on('data', (chunk) => {
