@@ -1,8 +1,10 @@
 const io = require('socket.io-client');
-const socket = io('localhost:9999');
+const socket = io('http://localhost:9999');
 socket.on('connect', handleConnect);
 socket.on('hashblock', handleMessage);
 socket.on('disconnect', handleDisconnect);
+
+console.log('smartsync started.');
 
 function handleConnect() {
   console.log('websocket connected.');
